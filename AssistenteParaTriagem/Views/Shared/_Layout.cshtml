@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Assistente Inteligente para Triagem</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AssistenteParaTriagem.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        
+        html,
+        body{
+            height:100%;
+        }
+
+        body{
+            background:#eef3f8;
+            display:flex;
+            flex-direction:column;
+            margin:0;
+        }
+
+        /* NAVBAR */
+
+        /* ===========================
+           NAVBAR
+        =========================== */
+
+        .navbar {
+            background: linear-gradient(90deg,#0d6efd,#0a58ca) !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,.15);
+            padding: 14px 0;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .navbar-brand i {
+                font-size: 28px;
+            }
+
+        .navbar-nav {
+            align-items: center;
+        }
+
+        .nav-item {
+            margin: 0 6px;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px !important;
+            border-radius: 10px;
+            transition: .25s;
+        }
+
+            .nav-link:hover {
+                background: rgba(255,255,255,.15);
+            }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+        /* CONTEÚDO */
+
+        main {
+            flex: 1;
+            padding: 20px 0 40px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: auto;
+            background: white;
+            box-shadow: 0 -3px 12px rgba(0,0,0,.08);
+            padding: 18px 0;
+            text-align: center;
+            font-size: 15px;
+        }
+
+            footer a {
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg">
+
+            <div class="container">
+
+                <a class="navbar-brand"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <i class="bi bi-hospital-fill"></i>
+
+                    Assistente Manchester
+
+                </a>
+
+                <button class="navbar-toggler bg-light"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#menu">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse"
+                     id="menu">
+
+                    <ul class="navbar-nav me-auto">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                <i class="bi bi-house-fill"></i>
+
+                                Início
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Triagem"
+                               asp-action="Index">
+
+                                <i class="bi bi-heart-pulse-fill"></i>
+
+                                Triagem
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                    <partial name="_LoginPartial" />
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <div class="container">
+
+        <main class="container flex-grow-1" role="main">
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+    <footer>
+
+        <div class="container">
+
+            <i class="bi bi-heart-pulse-fill text-danger"></i>
+
+            <strong>Assistente Inteligente para Triagem Manchester</strong>
+
+            <br />
+
+            © 2026 - Desenvolvido para apoio à classificação de risco em Pronto Atendimento.
+
+        </div>
+
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

@@ -1,0 +1,305 @@
+﻿@{
+    ViewData["Title"] = "Assistente Inteligente para Triagem Manchester";
+}
+
+<style>
+
+    body {
+        background: #eef3f8;
+    }
+
+    .hero {
+        background: linear-gradient(135deg,#0d6efd,#0a58ca);
+        color: white;
+        border-radius: 25px;
+        padding: 70px 50px;
+        box-shadow: 0 15px 35px rgba(0,0,0,.15);
+        margin-top: 40px;
+    }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: .95;
+        }
+
+        .hero i {
+            font-size: 90px;
+            margin-bottom: 20px;
+        }
+
+    .feature-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.08);
+        transition: .3s;
+        height: 100%;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card i {
+            font-size: 55px;
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+
+    .btn-triagem {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 15px 35px;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 18px;
+        background: white;
+        color: #0d6efd;
+        border: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,.15);
+        transition: .3s;
+        text-decoration: none;
+    }
+
+        .btn-triagem:hover {
+            background: #f8f9fa;
+            color: #0a58ca;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,.20);
+        }
+
+        .btn-triagem i {
+            font-size: 30px;
+            margin: 0;
+            color: #dc3545;
+        }
+
+    .ultimo-card {
+        margin-bottom: 88px;
+    }
+</style>
+
+<div class="container">
+
+    <div class="hero text-center">
+
+        <i class="bi bi-hospital-fill"></i>
+
+        <h1>
+
+            Assistente Inteligente para Triagem
+
+        </h1>
+
+        <h3 class="mb-4">
+
+            Protocolo de Manchester
+
+        </h3>
+
+        <p>
+
+            Sistema desenvolvido para apoiar profissionais de saúde na
+            classificação de risco utilizando os critérios do
+            Protocolo de Manchester.
+
+        </p>
+
+        <div class="mt-5">
+
+            <a asp-controller="Triagem"
+               asp-action="Index"
+               class="btn-triagem">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+                <span>Iniciar Triagem</span>
+
+            </a>
+
+        </div>
+    </div>
+
+    <div class="row mt-5">
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card feature-card">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                    <h4>
+
+                        Classificação de Risco
+
+                    </h4>
+
+                    <p>
+
+                        Avaliação baseada no Protocolo de Manchester para
+                        identificar o nível de prioridade do atendimento.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card feature-card">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-clipboard2-pulse-fill"></i>
+
+                    <h4>
+
+                        Sinais Vitais
+
+                    </h4>
+
+                    <p>
+
+                        Frequência cardíaca, respiratória,
+                        pressão arterial, temperatura e saturação
+                        auxiliam na classificação automática.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card feature-card">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-cpu-fill"></i>
+
+                    <h4>
+
+                        Inteligência Artificial
+
+                    </h4>
+
+                    <p>
+
+                        Processamento de linguagem natural para identificar
+                        discriminadores clínicos e auxiliar a tomada de decisão.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-4 mt-5  ultimo-card">
+
+        <div class="card-body p-5">
+
+            <h2 class="text-primary text-center mb-4">
+
+                Fluxo de Funcionamento
+
+            </h2>
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+
+                    <i class="bi bi-person-vcard-fill text-primary fs-1"></i>
+
+                    <h5 class="mt-3">
+
+                        1. Cadastro
+
+                    </h5>
+
+                    <p>
+
+                        Registro da queixa principal e sintomas.
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <i class="bi bi-heart-pulse text-danger fs-1"></i>
+
+                    <h5 class="mt-3">
+
+                        2. Avaliação
+
+                    </h5>
+
+                    <p>
+
+                        Informar sinais vitais do paciente.
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <i class="bi bi-cpu-fill text-success fs-1"></i>
+
+                    <h5 class="mt-3">
+
+                        3. Processamento
+
+                    </h5>
+
+                    <p>
+
+                        O sistema identifica os discriminadores.
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <i class="bi bi-check-circle-fill text-warning fs-1"></i>
+
+                    <h5 class="mt-3">
+
+                        4. Resultado
+
+                    </h5>
+
+                    <p>
+
+                        Exibição da cor de risco e do tempo máximo de atendimento.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

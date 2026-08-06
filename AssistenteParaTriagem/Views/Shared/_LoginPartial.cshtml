@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<style>
+
+    .navbar-nav .nav-link {
+        color: white !important;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .navbar-nav .nav-link:hover {
+            color: #dbeafe !important;
+        }
+
+    .btn-login {
+        background: white;
+        color: #0d6efd !important;
+        border-radius: 30px;
+        padding: 8px 18px !important;
+        font-weight: 600;
+        transition: .3s;
+        border: none;
+    }
+
+        .btn-login:hover {
+            background: #e8f0ff;
+            transform: translateY(-2px);
+        }
+
+    .btn-register {
+        border: 2px solid white;
+        color: white !important;
+        border-radius: 30px;
+        padding: 8px 18px !important;
+        margin-right: 10px;
+        transition: .3s;
+    }
+
+        .btn-register:hover {
+            background: white;
+            color: #0d6efd !important;
+        }
+
+    .btn-logout {
+        background: #dc3545;
+        color: white !important;
+        border: none;
+        border-radius: 30px;
+        padding: 8px 18px;
+        font-weight: 600;
+        transition: .3s;
+    }
+
+        .btn-logout:hover {
+            background: #bb2d3b;
+            color: white !important;
+        }
+
+    .usuario {
+        color: white;
+        font-weight: 600;
+        margin-right: 15px;
+    }
+
+</style>
+
+<ul class="navbar-nav align-items-center">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item me-2">
+
+            <span class="nav-link">
+
+                <i class="bi bi-person-circle"></i>
+
+                @User.Identity?.Name
+
+            </span>
+
+        </li>
+
+        <li class="nav-item">
+
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Action("Index", "Home")">
+
+                <button class="btn btn-danger rounded-pill px-4">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Sair
+
+                </button>
+
+            </form>
+
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+
+            <a class="btn btn-outline-light rounded-pill px-4 me-2"
+               asp-area="Identity"
+               asp-page="/Account/Register">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+                Cadastrar
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="btn btn-light rounded-pill px-4"
+               asp-area="Identity"
+               asp-page="/Account/Login">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Entrar
+
+            </a>
+
+        </li>
+    }
+</ul>

@@ -1,0 +1,25 @@
+PalavraChave,Sinonimos,Nome,Cor,Gravidade,Justificativa
+parada cardiaca,parada|parada cardiorrespiratoria,Parada cardiorrespiratória,Vermelho,5,Risco imediato de morte
+inconsciente,desacordado|sem resposta,Paciente inconsciente,Vermelho,5,Alteração grave do nível de consciência
+convulsao,,Convulsão ativa,Vermelho,5,Emergência neurológica
+saturacao baixa,,SpO2 < 90%,Vermelho,5,Comprometimento respiratório grave
+falta de ar intensa,dispneia grave|dispneia intensa,Dispneia grave,Vermelho,5,Risco respiratório grave
+trauma grave,,Trauma grave,Vermelho,5,Risco de morte ou lesão grave
+colapso,queda subita,Colapso súbito,Vermelho,5,Instabilidade crítica
+choque,,Choque circulatório,Laranja,4,Instabilidade hemodinâmica
+dor toracica,dor no peito,Dor torácica,Laranja,4,Suspeita de síndrome coronariana
+febre alta,,Febre elevada persistente,Laranja,4,Risco infeccioso grave
+dispneia,falta de ar|cansaco ao respirar|respiracao dificil|dispneia aos esforcos,Dispneia,Laranja,4,Desconforto respiratório
+taquicardia,,Taquicardia,Amarelo,3,Alteração dos sinais vitais
+palpitacao,,Palpitação,Amarelo,3,Alteração cardíaca
+febre,,Febre,Amarelo,3,Possível processo infeccioso
+dispneia leve,falta de ar leve,Dispneia leve,Amarelo,3,Alteração respiratória
+vomito,vomitando,Vômitos,Verde,2,Quadro estável
+cefaleia,dor de cabeca,Cefaleia,Verde,2,Sem sinais de gravidade
+dor leve,,Dor leve,Verde,2,Quadro estável
+tosse,,Tosse leve,Verde,2,Quadro estável
+mal estar,,Mal-estar geral,Verde,2,Quadro estável
+renovacao de receita,renovacao receita|renovar receita|minha receita|receita medica,Renovação de receita,Azul,1,Demanda administrativa
+pedido exame,,Pedido de exame simples,Azul,1,Demanda administrativa
+resultado exame,,Resultado de exame,Azul,1,Demanda administrativa
+informacao,,Consulta para informação,Azul,1,Demanda administrativa

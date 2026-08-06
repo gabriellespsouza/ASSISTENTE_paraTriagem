@@ -1,0 +1,311 @@
+﻿@model AssistenteParaTriagem.Models.ResultadoTriagem
+
+@{
+    ViewData["Title"] = "Resultado da Triagem";
+
+    string classeCor = Model.Cor switch
+    {
+        AssistenteParaTriagem.Models.CorTriagem.Vermelho => "bg-danger",
+        AssistenteParaTriagem.Models.CorTriagem.Laranja => "bg-orange",
+        AssistenteParaTriagem.Models.CorTriagem.Amarelo => "bg-warning text-dark",
+        AssistenteParaTriagem.Models.CorTriagem.Verde => "bg-success",
+        AssistenteParaTriagem.Models.CorTriagem.Azul => "bg-primary",
+        _ => "bg-secondary"
+    };
+
+    string descricao = Model.Cor switch
+    {
+        AssistenteParaTriagem.Models.CorTriagem.Vermelho => "Emergência",
+        AssistenteParaTriagem.Models.CorTriagem.Laranja => "Muito Urgente",
+        AssistenteParaTriagem.Models.CorTriagem.Amarelo => "Urgente",
+        AssistenteParaTriagem.Models.CorTriagem.Verde => "Pouco Urgente",
+        AssistenteParaTriagem.Models.CorTriagem.Azul => "Não Urgente",
+        _ => ""
+    };
+
+    string icone = Model.Cor switch
+    {
+        AssistenteParaTriagem.Models.CorTriagem.Vermelho => "bi-heart-pulse-fill",
+        AssistenteParaTriagem.Models.CorTriagem.Laranja => "bi-exclamation-triangle-fill",
+        AssistenteParaTriagem.Models.CorTriagem.Amarelo => "bi-exclamation-circle-fill",
+        AssistenteParaTriagem.Models.CorTriagem.Verde => "bi-check-circle-fill",
+        AssistenteParaTriagem.Models.CorTriagem.Azul => "bi-info-circle-fill",
+        _ => "bi-clipboard2-pulse-fill"
+    };
+}
+
+<style>
+
+    body {
+        background: #eef3f8;
+    }
+
+    .resultado-card {
+        border: none;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,.12);
+        animation: fade .5s;
+    }
+
+    @@keyframes fade {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .header-cor {
+        padding: 45px;
+        text-align: center;
+        color: white;
+    }
+
+    .bg-orange {
+        background: #fd7e14;
+        color: white;
+    }
+
+    .icone {
+        font-size: 80px;
+        margin-bottom: 15px;
+    }
+
+    .resultado-cor {
+        font-size: 55px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .descricao {
+        font-size: 22px;
+    }
+
+    .box {
+        background: white;
+        border: none;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 18px rgba(0,0,0,.08);
+    }
+
+    .titulo {
+        font-size: 22px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+
+    .tempo {
+        font-size: 42px;
+        font-weight: bold;
+    }
+
+    .list-group-item {
+        border: none;
+        border-left: 5px solid #0d6efd;
+        background: #f8f9fc;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .btn {
+        border-radius: 40px;
+        padding: 12px 35px;
+        font-weight: 600;
+        transition: .3s;
+    }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .badge-status {
+        font-size: 18px;
+        padding: 12px 30px;
+        border-radius: 30px;
+    }
+
+    @@media print {
+
+        .btn {
+            display: none;
+        }
+
+        body {
+            background: white;
+        }
+    }
+
+</style>
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="card resultado-card">
+
+                <div class="header-cor @classeCor">
+
+                    <i class="bi @icone icone"></i>
+
+                    <h2 class="fw-bold">
+                        Resultado da Triagem Manchester
+                    </h2>
+
+                    <div class="resultado-cor">
+                        @Model.Cor.ToString().ToUpper()
+                    </div>
+
+                    <span class="badge bg-light text-dark badge-status mt-3">
+                        @descricao
+                    </span>
+
+                </div>
+
+                <div class="card-body p-5">
+
+                    <div class="box">
+
+                        <div class="titulo">
+                            <i class="bi bi-file-medical-fill"></i>
+                            Justificativa Clínica
+                        </div>
+
+                        <p class="lead mb-0">
+                            @Model.Justificativa
+                        </p>
+
+                    </div>
+
+                    <div class="box text-center">
+
+                        <div class="titulo">
+
+                            <i class="bi bi-stopwatch-fill"></i>
+
+                            Tempo Máximo para Atendimento
+
+                        </div>
+
+                        <div class="tempo text-primary">
+
+                            @Model.TempoMaximo
+
+                            <small class="fs-5"> minutos</small>
+
+                        </div>
+
+                    </div>
+
+                    @if (Model.Discriminadores?.Any() == true)
+                    {
+                        <div class="box">
+
+                            <div class="titulo">
+
+                                <i class="bi bi-list-check"></i>
+
+                                Discriminadores Identificados
+
+                            </div>
+
+                            <div class="row">
+
+                                @foreach (var item in Model.Discriminadores)
+                                {
+                                    <div class="col-md-6 mb-3">
+
+                                        <div class="card shadow-sm border-0 h-100">
+
+                                            <div class="card-body">
+
+                                                <h5 class="text-primary">
+
+                                                    <i class="bi bi-check-circle-fill"></i>
+
+                                                    @item.Nome
+
+                                                </h5>
+
+                                                <p class="text-muted mb-0">
+
+                                                    @item.Justificativa
+
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    }
+
+                    @if (Model.RegrasAplicadas?.Any() == true)
+                    {
+                        <div class="box">
+
+                            <div class="titulo">
+
+                                <i class="bi bi-shield-check"></i>
+
+                                Regras Clínicas Aplicadas
+
+                            </div>
+
+                            <ul class="list-group">
+
+                                @foreach (var regra in Model.RegrasAplicadas)
+                                {
+                                    <li class="list-group-item">
+
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                        @regra
+
+                                    </li>
+                                }
+
+                            </ul>
+
+                        </div>
+                    }
+
+                    <div class="text-center mt-5">
+
+                        <a asp-action="Index"
+                           class="btn btn-primary btn-lg me-3">
+
+                            <i class="bi bi-arrow-clockwise"></i>
+
+                            Nova Triagem
+
+                        </a>
+
+                     
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
