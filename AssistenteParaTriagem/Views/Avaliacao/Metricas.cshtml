@@ -1,0 +1,421 @@
+﻿@model AssistenteParaTriagem.Models.ResultadoMetricas
+
+@{
+    ViewData["Title"] = "Resultados da Avaliação";
+}
+
+<div class="container py-5">
+
+    <!-- ===================================================== -->
+    <!-- CABEÇALHO -->
+    <!-- ===================================================== -->
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold text-primary">
+            Resultados da Avaliação
+        </h1>
+
+        <p class="text-muted">
+            Indicadores de desempenho do protótipo
+        </p>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- INDICADORES PRINCIPAIS -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4">
+
+        <!-- Total -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Total de casos</h6>
+
+                    <h2 class="fw-bold">
+                        @Model.TotalCasos
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Acurácia sistema -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Acurácia do sistema</h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        @Model.AcuraciaSistema.ToString("F2")%
+
+                    </h2>
+
+                    <small class="text-muted">
+
+                        @Model.AcertosSistema
+                        de
+                        @Model.TotalCasos
+                        casos
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Acurácia profissionais -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Acurácia dos profissionais</h6>
+
+                    <h2 class="fw-bold">
+
+                        @Model.AcuraciaProfissionais.ToString("F2")%
+
+                    </h2>
+
+                    <small class="text-muted">
+
+                        @Model.AcertosProfissionais
+                        de
+                        @Model.TotalCasos
+                        casos
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- MÉTRICAS DE CLASSIFICAÇÃO -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4 mt-1">
+
+        <!-- Precisão -->
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Precisão</h6>
+
+                    <h3>
+                        @Model.Precisao.ToString("F2")%
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Recall -->
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Recall / Sensibilidade</h6>
+
+                    <h3>
+                        @Model.Recall.ToString("F2")%
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- F1 -->
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>F1</h6>
+
+                    <h3>
+                        @Model.F1.ToString("F2")%
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Kappa -->
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow text-center">
+
+                <div class="card-body">
+
+                    <h6>Kappa de Cohen</h6>
+
+                    <h3>
+                        @Model.Kappa.ToString("F3")
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CONCORDÂNCIA -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Concordância entre profissional e sistema
+            </h4>
+
+            <div class="row mt-4">
+
+                <div class="col-md-6">
+
+                    <div class="alert alert-info">
+
+                        <strong>
+                            Concordância
+                        </strong>
+
+                        <br />
+
+                        @Model.ConcordanciaProfissionalSistema.ToString("F2")%
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="alert alert-secondary">
+
+                        <strong>
+                            Divergência
+                        </strong>
+
+                        <br />
+
+                        @{
+                            var divergencia =
+                                100 -
+                                Model.ConcordanciaProfissionalSistema;
+                        }
+
+                        @divergencia.ToString("F2")%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SEGURANÇA -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Segurança da classificação
+            </h4>
+
+            <div class="row mt-4">
+
+                <div class="col-md-6">
+
+                    <div class="alert alert-danger">
+
+                        <strong>
+                            Under-triage
+                        </strong>
+
+                        <br />
+
+                        @Model.UnderTriage.ToString("F2")%
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="alert alert-warning">
+
+                        <strong>
+                            Over-triage
+                        </strong>
+
+                        <br />
+
+                        @Model.OverTriage.ToString("F2")%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- USABILIDADE -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Avaliação de usabilidade
+            </h4>
+
+            <p class="text-muted mb-4">
+                Média geral das respostas dos participantes
+            </p>
+
+            <div class="row mt-4">
+
+                <div class="col-md-6">
+
+                    Facilidade de uso:
+
+                    <strong>
+                        @Model.MediaFacilidade.ToString("F2") / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    Clareza:
+
+                    <strong>
+                        @Model.MediaClareza.ToString("F2") / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="col-md-6 mt-3">
+
+                    Utilidade:
+
+                    <strong>
+                        @Model.MediaUtilidade.ToString("F2") / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="col-md-6 mt-3">
+
+                    Confiança:
+
+                    <strong>
+                        @Model.MediaConfianca.ToString("F2") / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="col-md-6 mt-3">
+
+                    Recomendaria:
+
+                    <strong>
+                        @Model.MediaRecomendacao.ToString("F2") / 5
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- OBSERVAÇÃO -->
+    <!-- ===================================================== -->
+
+    <div class="alert alert-secondary mt-4">
+
+        <strong>Observação:</strong>
+
+        As métricas de precisão, recall e F1 são calculadas
+        considerando as cinco categorias de classificação de risco:
+        Vermelho, Laranja, Amarelo, Verde e Azul.
+
+        O Kappa de Cohen representa a concordância entre a
+        classificação do sistema e o padrão-ouro, considerando
+        a possibilidade de concordância ao acaso.
+
+    </div>
+
+</div>

@@ -1,25 +1,42 @@
 PalavraChave,Sinonimos,Nome,Cor,Gravidade,Justificativa
-parada cardiaca,parada|parada cardiorrespiratoria,Parada cardiorrespiratória,Vermelho,5,Risco imediato de morte
-inconsciente,desacordado|sem resposta,Paciente inconsciente,Vermelho,5,Alteração grave do nível de consciência
-convulsao,,Convulsão ativa,Vermelho,5,Emergência neurológica
-saturacao baixa,,SpO2 < 90%,Vermelho,5,Comprometimento respiratório grave
-falta de ar intensa,dispneia grave|dispneia intensa,Dispneia grave,Vermelho,5,Risco respiratório grave
-trauma grave,,Trauma grave,Vermelho,5,Risco de morte ou lesão grave
-colapso,queda subita,Colapso súbito,Vermelho,5,Instabilidade crítica
-choque,,Choque circulatório,Laranja,4,Instabilidade hemodinâmica
-dor toracica,dor no peito,Dor torácica,Laranja,4,Suspeita de síndrome coronariana
-febre alta,,Febre elevada persistente,Laranja,4,Risco infeccioso grave
-dispneia,falta de ar|cansaco ao respirar|respiracao dificil|dispneia aos esforcos,Dispneia,Laranja,4,Desconforto respiratório
-taquicardia,,Taquicardia,Amarelo,3,Alteração dos sinais vitais
-palpitacao,,Palpitação,Amarelo,3,Alteração cardíaca
-febre,,Febre,Amarelo,3,Possível processo infeccioso
-dispneia leve,falta de ar leve,Dispneia leve,Amarelo,3,Alteração respiratória
-vomito,vomitando,Vômitos,Verde,2,Quadro estável
-cefaleia,dor de cabeca,Cefaleia,Verde,2,Sem sinais de gravidade
-dor leve,,Dor leve,Verde,2,Quadro estável
-tosse,,Tosse leve,Verde,2,Quadro estável
-mal estar,,Mal-estar geral,Verde,2,Quadro estável
-renovacao de receita,renovacao receita|renovar receita|minha receita|receita medica,Renovação de receita,Azul,1,Demanda administrativa
-pedido exame,,Pedido de exame simples,Azul,1,Demanda administrativa
-resultado exame,,Resultado de exame,Azul,1,Demanda administrativa
-informacao,,Consulta para informação,Azul,1,Demanda administrativa
+parada cardiaca,parada|parada cardiorrespiratoria|parada cardíaca|parada cardiorrespiratória,Parada cardiorrespiratória,Vermelho,5,Comprometimento imediato das funções vitais
+inconsciente,desacordado|sem resposta|perda de consciencia|perda de consciência,Paciente inconsciente,Vermelho,5,Alteração grave do nível de consciência
+convulsao,convulsão|crise convulsiva|convulsao ativa|convulsão ativa,Convulsão ativa,Vermelho,5,Emergência neurológica
+saturacao baixa,spo2 baixa|saturação baixa|oxigenacao baixa|oxigenação baixa,Oxigenação gravemente comprometida,Vermelho,5,Comprometimento respiratório grave
+falta de ar intensa,dispneia grave|dispneia intensa|falta de ar grave|dificuldade respiratoria intensa|dificuldade respiratória intensa,Dispneia grave,Vermelho,5,Risco respiratório grave
+trauma grave,trauma intenso|traumatismo grave|acidente grave,Trauma grave,Vermelho,5,Risco de lesão grave ou comprometimento vital
+colapso,queda subita|queda súbita|colapso subito|colapso súbito,Colapso súbito,Vermelho,5,Instabilidade clínica potencialmente grave
+hemorragia grave,sangramento intenso|sangramento grave|hemorragia intensa|perda de sangue importante,Hemorragia grave,Vermelho,5,Risco de perda sanguínea importante
+choque,choque circulatorio|choque circulatório|sinais de choque|instabilidade hemodinamica|instabilidade hemodinâmica,Choque circulatório,Laranja,4,Instabilidade hemodinâmica importante
+dor toracica,dor no peito|dor torácica|pressao no peito|pressão no peito,Dor torácica,Laranja,4,Queixa potencialmente grave que necessita avaliação rápida
+dor toracica intensa,dor intensa no peito|dor torácica intensa|dor forte no peito|dor forte no peito,Dor torácica intensa,Laranja,4,Dor torácica intensa com potencial de condição grave
+febre alta,febre elevada|febre muito alta|temperatura alta|febre persistente,Febre alta,Laranja,4,Febre elevada associada a possível quadro infeccioso importante
+dispneia,falta de ar|cansaco ao respirar|cansaço ao respirar|respiracao dificil|respiração difícil|dificuldade para respirar,Dispneia,Laranja,4,Desconforto respiratório relevante
+sangramento importante,sangramento abundante|sangramento moderado|perda de sangue,Sangramento importante,Laranja,4,Sangramento que necessita avaliação prioritária
+dor intensa,dor muito forte|dor severa|dor intensa|dor insuportavel|dor insuportável,Dor intensa,Laranja,4,Dor intensa com necessidade de avaliação prioritária
+alteracao importante da consciencia,confusao intensa|confusão intensa|desorientacao intensa|desorientação intensa|alteracao da consciencia|alteração da consciência,Alteração importante da consciência,Laranja,4,Alteração neurológica relevante
+vomitos persistentes,vomitos repetidos|vômitos repetidos|vomitando muito|vomito persistente|vômito persistente,Vômitos persistentes,Laranja,4,Vômitos persistentes que podem causar comprometimento clínico
+taquicardia,pulso acelerado|coracao acelerado|coração acelerado|batimento acelerado,Taquicardia,Amarelo,3,Alteração dos sinais vitais que necessita avaliação
+palpitacao,palpitacoes|palpitações|coracao disparado|coração disparado,Palpitação,Amarelo,3,Alteração cardíaca que necessita avaliação
+febre,temperatura elevada|temperatura aumentada|estado febril,Febre,Amarelo,3,Possível processo infeccioso
+dispneia leve,falta de ar leve|cansaco leve ao respirar|cansaço leve ao respirar,Dispneia leve,Amarelo,3,Alteração respiratória que necessita avaliação
+dor moderada,dor media|dor média|dor moderada,Dor moderada,Amarelo,3,Dor de intensidade moderada
+dor abdominal,dor na barriga|dor de barriga|dor abdominal moderada,Dor abdominal,Amarelo,3,Queixa abdominal que necessita avaliação clínica
+cefaleia moderada,dor de cabeca moderada|dor de cabeça moderada,Cefaleia moderada,Amarelo,3,Dor de intensidade moderada
+sangramento moderado,sangramento pequeno|sangramento moderado,Sangramento moderado,Amarelo,3,Sangramento que necessita avaliação
+vomito frequente,vomito frequente|vômito frequente|vomitos frequentes|vômitos frequentes,Vômitos frequentes,Amarelo,3,Sintoma persistente que necessita avaliação
+dor abdominal intensa,dor forte na barriga|dor abdominal forte|dor abdominal intensa|dor muito forte na barriga,Dor abdominal intensa,Laranja,4,Dor abdominal intensa necessita avaliação prioritária
+dor abdominal leve,dor de barriga leve|dor abdominal pequena|dor abdominal fraca,Dor abdominal leve,Verde,2,Quadro abdominal leve e estável
+vomito,vomitando|vômito,Vômitos,Verde,2,Vômito isolado em quadro estável
+cefaleia,dor de cabeca|dor de cabeça,Dor de cabeça,Verde,2,Quadro estável sem sinais de gravidade
+dor leve,dor pequena|dor fraca|desconforto leve,Dor leve,Verde,2,Quadro estável
+tosse,tosse leve|tosse seca,Tosse,Verde,2,Quadro respiratório leve
+mal estar,mal-estar|indisposicao|indisposição,Mal-estar geral,Verde,2,Quadro inespecífico sem sinais de gravidade
+nausea,náusea|enjoo,Náusea,Verde,2,Sintoma leve sem sinais de gravidade
+resfriado,resfriado leve|coriza|nariz escorrendo,Resfriado leve,Verde,2,Quadro respiratório leve
+dor muscular,dor no corpo|mialgia|dor muscular leve,Dor muscular,Verde,2,Quadro musculoesquelético leve
+renovacao de receita,renovacao receita|renovar receita|minha receita|receita medica|receita médica,Renovação de receita,Azul,1,Demanda administrativa
+pedido exame,solicitacao de exame|solicitação de exame|pedir exame|pedido de exame,Pedido de exame simples,Azul,1,Demanda administrativa
+resultado exame,resultado de exame|ver resultado|buscar resultado,Resultado de exame,Azul,1,Demanda administrativa
+informacao,informação|informacoes|informações|duvida|dúvida|orientacao|orientação,Consulta para informação,Azul,1,Demanda administrativa
+atestado,solicitacao de atestado|solicitação de atestado|pedido de atestado,Demanda administrativa,Azul,1,Demanda administrativa

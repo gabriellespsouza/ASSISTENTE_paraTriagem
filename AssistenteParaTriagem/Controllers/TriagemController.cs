@@ -25,20 +25,10 @@ namespace AssistenteParaTriagem.Controllers
             _rules = rules;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
-        }
-
-        /// <summary>
-        /// Endpoint de diagnóstico: mostra quantos discriminadores foram
-        /// carregados do manchester.csv e seus sinônimos, para conferir
-        /// rapidamente se o léxico clínico controlado está ativo.
-        /// Remova esta action antes de considerar o protótipo "final".
-        /// </summary>
-        public IActionResult Diagnostico()
-        {
-            return View(_dataset.Discriminadores);
         }
 
         [HttpPost]
@@ -53,9 +43,20 @@ namespace AssistenteParaTriagem.Controllers
             double? temperatura,
             bool pacienteInconsciente)
         {
+            if (string.IsNullOrWhiteSpace(queixa))
+            {
+                ModelState.AddModelError("queixa",
+                    "A queixa principal é obrigatória.");
+
+                return View("Index");
+            }
+
             var texto = $"{queixa} {sintomas}";
 
-            var discriminadores = _pln.Extrair(texto, _dataset.Discriminadores);
+            var discriminadores =
+                _pln.Extrair(
+                    texto,
+                    _dataset.Discriminadores);
 
             discriminadores.AddRange(
                 _pln.AvaliarSinaisVitais(
@@ -79,15 +80,13 @@ namespace AssistenteParaTriagem.Controllers
                 discriminadores,
                 vitais);
 
-            // Log de auditoria completo: entradas, discriminadores,
-            // regras ativadas e classificação final (seção 2.3 do
-            // projeto de pesquisa).
-            _context.Avaliacoes.Add(new AvaliacaoTriagem
+            var avaliacao = new AvaliacaoTriagem
             {
-                NomeProfissional = User.Identity?.Name ?? "Usuário",
+                NomeProfissional =
+                    User.Identity?.Name ?? "Usuário",
 
                 Queixa = queixa,
-                Sintomas = sintomas,
+                Sintomas = sintomas ?? string.Empty,
 
                 FrequenciaCardiaca = fc,
                 FrequenciaRespiratoria = fr,
@@ -95,23 +94,37 @@ namespace AssistenteParaTriagem.Controllers
                 Saturacao = spo2,
                 Temperatura = temperatura,
 
-                PacienteInconsciente = pacienteInconsciente,
+                PacienteInconsciente =
+                    pacienteInconsciente,
 
-                Discriminadores = string.Join(", ",
-                    discriminadores.Select(x => x.Nome)),
+                Discriminadores =
+                    string.Join(
+                        ", ",
+                        discriminadores.Select(x => x.Nome)),
 
-                RegrasAplicadas = string.Join(", ",
-                    resultado.RegrasAplicadas),
+                RegrasAplicadas =
+                    string.Join(
+                        ", ",
+                        resultado.RegrasAplicadas),
 
                 CorRisco = resultado.Cor,
-                TempoMaximo = resultado.TempoMaximo,
-                Justificativa = resultado.Justificativa,
+
+                TempoMaximo =
+                    resultado.TempoMaximo,
+
+                Justificativa =
+                    resultado.Justificativa,
+
                 DataHora = DateTime.Now
-            });
+            };
+
+            _context.Avaliacoes.Add(avaliacao);
 
             _context.SaveChanges();
 
-            return View("Resultado", resultado);
+            return View(
+                "Resultado",
+                resultado);
         }
     }
 }

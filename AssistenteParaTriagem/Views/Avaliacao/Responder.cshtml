@@ -1,0 +1,133 @@
+﻿@model AssistenteParaTriagem.Models.CenarioClinico
+
+@{
+    ViewData["Title"] = "Classificar Cenário";
+}
+
+<div class="container py-5">
+
+    <div class="card border-0 shadow rounded-4">
+
+        <div class="card-body p-5">
+
+            <h1 class="text-primary fw-bold">
+                @Model.Titulo
+            </h1>
+
+            <hr />
+
+            <div class="alert alert-light">
+
+                <h5>Queixa principal</h5>
+
+                <p>
+                    @Model.QueixaPrincipal
+                </p>
+
+                <h5>Sintomas</h5>
+
+                <p>
+                    @Model.Sintomas
+                </p>
+
+                <h5>Tempo de evolução</h5>
+
+                <p>
+                    @Model.TempoEvolucao
+                </p>
+
+            </div>
+
+            <h4 class="text-danger">
+                Sinais Vitais
+            </h4>
+
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+                    <strong>FC:</strong>
+                    @Model.FrequenciaCardiaca bpm
+                </div>
+
+                <div class="col-md-4">
+                    <strong>FR:</strong>
+                    @Model.FrequenciaRespiratoria irpm
+                </div>
+
+                <div class="col-md-4">
+                    <strong>PAS:</strong>
+                    @Model.PressaoSistolica mmHg
+                </div>
+
+                <div class="col-md-4 mt-3">
+                    <strong>SpO₂:</strong>
+                    @Model.Saturacao %
+                </div>
+
+                <div class="col-md-4 mt-3">
+                    <strong>Temperatura:</strong>
+                    @Model.Temperatura °C
+                </div>
+
+            </div>
+
+            <form asp-action="Responder"
+                  method="post">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                @Html.AntiForgeryToken()
+
+                <h4 class="text-primary mb-4">
+                    Qual seria sua classificação?
+                </h4>
+
+                <div class="row g-3">
+
+                    @foreach (var cor in Enum.GetValues<AssistenteParaTriagem.Models.CorTriagem>())
+                    {
+                        <div class="col-md-6">
+
+                            <div class="form-check border rounded-3 p-3">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="corProfissional"
+                                       value="@cor"
+                                       id="cor_@cor"
+                                       required />
+
+                                <label class="form-check-label fw-bold"
+                                       for="cor_@cor">
+
+                                    @cor
+
+                                </label>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+                <div class="text-center mt-5">
+
+                    <button type="submit"
+                            class="btn btn-primary btn-lg">
+
+                        Comparar com o Assistente
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

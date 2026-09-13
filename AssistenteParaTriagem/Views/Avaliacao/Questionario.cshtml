@@ -1,0 +1,207 @@
+﻿@model AssistenteParaTriagem.Models.RespostaQuestionario
+
+@{
+    ViewData["Title"] = "Questionário de Usabilidade";
+}
+
+<div class="container py-5">
+
+    <div class="card border-0 shadow rounded-4">
+
+        <div class="card-body p-5">
+
+            <h1 class="text-primary fw-bold">
+                Questionário de Usabilidade
+            </h1>
+
+            <p class="text-muted">
+                Avalie sua experiência com o protótipo.
+            </p>
+
+            <hr />
+
+            <form asp-action="Questionario"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Facilidade de uso
+                    </label>
+
+                    <select class="form-select"
+                            asp-for="FacilidadeUso"
+                            required>
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="1">
+                            1 - Muito difícil
+                        </option>
+
+                        <option value="2">
+                            2 - Difícil
+                        </option>
+
+                        <option value="3">
+                            3 - Regular
+                        </option>
+
+                        <option value="4">
+                            4 - Fácil
+                        </option>
+
+                        <option value="5">
+                            5 - Muito fácil
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Clareza das recomendações
+                    </label>
+
+                    <select class="form-select"
+                            asp-for="ClarezaRecomendacao"
+                            required>
+
+                        <option value="">Selecione</option>
+
+                        <option value="1">1 - Muito baixa</option>
+                        <option value="2">2 - Baixa</option>
+                        <option value="3">3 - Regular</option>
+                        <option value="4">4 - Alta</option>
+                        <option value="5">5 - Muito alta</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Utilidade do sistema
+                    </label>
+
+                    <select class="form-select"
+                            asp-for="Utilidade"
+                            required>
+
+                        <option value="">Selecione</option>
+
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Confiança nas recomendações
+                    </label>
+
+                    <select class="form-select"
+                            asp-for="Confianca"
+                            required>
+
+                        <option value="">Selecione</option>
+
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Recomendaria o uso do sistema?
+                    </label>
+
+                    <select class="form-select"
+                            asp-for="RecomendariaUso"
+                            required>
+
+                        <option value="">Selecione</option>
+
+                        <option value="1">1 - Não recomendaria</option>
+                        <option value="2">2</option>
+                        <option value="3">3 - Talvez</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Recomendaria</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Pontos positivos
+                    </label>
+
+                    <textarea class="form-control"
+                              asp-for="PontosPositivos"
+                              rows="3"></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Dificuldades encontradas
+                    </label>
+
+                    <textarea class="form-control"
+                              asp-for="Dificuldades"
+                              rows="3"></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Sugestões de melhoria
+                    </label>
+
+                    <textarea class="form-control"
+                              asp-for="Sugestoes"
+                              rows="3"></textarea>
+
+                </div>
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-primary btn-lg">
+
+                        Enviar avaliação
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

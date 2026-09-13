@@ -16,20 +16,18 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-        
+
         html,
-        body{
-            height:100%;
+        body {
+            height: 100%;
         }
 
-        body{
-            background:#eef3f8;
-            display:flex;
-            flex-direction:column;
-            margin:0;
+        body {
+            background: #eef3f8;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
         }
-
-        /* NAVBAR */
 
         /* ===========================
            NAVBAR
@@ -38,43 +36,90 @@
         .navbar {
             background: linear-gradient(90deg,#0d6efd,#0a58ca) !important;
             box-shadow: 0 4px 15px rgba(0,0,0,.15);
-            padding: 14px 0;
+            padding: 10px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .navbar-brand {
             color: #fff !important;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
 
             .navbar-brand i {
-                font-size: 28px;
+                font-size: 26px;
             }
 
+        /* Todos os itens do menu (esquerda) numa linha, alinhados verticalmente */
         .navbar-nav {
+            display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 2px;
         }
 
         .nav-item {
-            margin: 0 6px;
+            margin: 0;
         }
 
         .nav-link {
             color: white !important;
             font-weight: 600;
+            font-size: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 16px !important;
+            gap: 6px;
+            padding: 9px 14px !important;
             border-radius: 10px;
+            white-space: nowrap;
+            line-height: 1;
             transition: .25s;
         }
 
+            .nav-link i,
+            .nav-link .nav-emoji {
+                font-size: 16px;
+                display: inline-flex;
+                align-items: center;
+                line-height: 1;
+            }
+
             .nav-link:hover {
                 background: rgba(255,255,255,.15);
+            }
+
+        /* Botões de autenticação (direita), alinhados entre si e com o resto do menu */
+        #menu {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .navbar-auth {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 16px;
+            padding-left: 16px;
+            border-left: 1px solid rgba(255,255,255,.25);
+        }
+
+            .navbar-auth .btn {
+                white-space: nowrap;
+                font-weight: 600;
+                border-radius: 30px;
+                padding: 6px 18px;
             }
 
         .navbar-toggler {
@@ -84,6 +129,35 @@
             .navbar-toggler:focus {
                 box-shadow: none;
             }
+
+        @@media (max-width: 991.98px) {
+            #menu {
+                align-items: flex-start;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+            }
+
+            .navbar-auth {
+                border-left: none;
+                border-top: 1px solid rgba(255,255,255,.25);
+                margin-left: 0;
+                padding-left: 0;
+                padding-top: 10px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
         /* CONTEÚDO */
 
         main {
@@ -130,7 +204,7 @@
 
                     <i class="bi bi-hospital-fill"></i>
 
-                    Assistente Manchester
+                    Assistente Inteligente 
 
                 </a>
 
@@ -146,39 +220,51 @@
                 <div class="collapse navbar-collapse"
                      id="menu">
 
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav">
 
                         <li class="nav-item">
-
                             <a class="nav-link"
                                asp-controller="Home"
                                asp-action="Index">
-
                                 <i class="bi bi-house-fill"></i>
-
                                 Início
-
                             </a>
-
                         </li>
 
                         <li class="nav-item">
-
                             <a class="nav-link"
                                asp-controller="Triagem"
                                asp-action="Index">
-
                                 <i class="bi bi-heart-pulse-fill"></i>
-
                                 Triagem
-
                             </a>
+                        </li>
 
+                  
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Avaliacao"
+                               asp-action="Index">
+                                <i class="bi bi-bar-chart-fill"></i>
+                                Avaliação
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Avaliacao"
+                               asp-action="Metricas">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                Resultados
+                            </a>
                         </li>
 
                     </ul>
 
-                    <partial name="_LoginPartial" />
+                    <div class="navbar-auth">
+                        <partial name="_LoginPartial" />
+                    </div>
 
                 </div>
 

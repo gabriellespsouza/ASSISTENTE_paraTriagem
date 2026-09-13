@@ -1,0 +1,574 @@
+﻿@model IEnumerable<AssistenteParaTriagem.Models.CenarioClinico>
+
+@{
+    ViewData["Title"] = "Avaliação do Protótipo";
+}
+
+<style>
+
+    /* =========================
+           FUNDO
+           ========================= */
+
+    body {
+        background: #eef3f8;
+    }
+
+
+    /* =========================
+           CONTAINER
+           ========================= */
+
+    .avaliacao-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+
+    /* =========================
+           CABEÇALHO
+           ========================= */
+
+    .avaliacao-header {
+        border-radius: 26px 26px 0 0;
+        background: linear-gradient( 135deg, #0d6efd 0%, #0a58ca 60%, #083d8f 100% );
+        padding: 42px 44px;
+        position: relative;
+        overflow: hidden;
+        color: white;
+        text-align: center;
+        box-shadow: 0 18px 45px rgba(13,38,76,.12);
+    }
+
+        /* círculo decorativo */
+
+        .avaliacao-header::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.08);
+            top: -140px;
+            right: -80px;
+        }
+
+        .avaliacao-header::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.05);
+            bottom: -100px;
+            left: -50px;
+        }
+
+    .avaliacao-header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+
+    /* =========================
+           ÍCONE DO CABEÇALHO
+           ========================= */
+
+    .avaliacao-header-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 17px;
+        background: rgba(255,255,255,.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin: 0 auto 16px;
+    }
+
+
+    /* =========================
+           TÍTULO
+           ========================= */
+
+    .avaliacao-header h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .avaliacao-header p {
+        margin: 0;
+        opacity: .9;
+        font-size: 1rem;
+    }
+
+
+    /* =========================
+           CONTEÚDO
+           ========================= */
+
+    .avaliacao-content {
+        background: white;
+        border-radius: 0 0 26px 26px;
+        padding: 42px;
+        box-shadow: 0 18px 45px rgba(13,38,76,.12);
+    }
+
+
+    /* =========================
+           ALERTA
+           ========================= */
+
+    .avaliacao-alert {
+        border-radius: 16px;
+        background: #eef6ff;
+        border: 1px solid #cfe2ff;
+        padding: 20px 22px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 35px;
+        color: #34495e;
+    }
+
+    .avaliacao-alert-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: #0d6efd;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .avaliacao-alert strong {
+        display: block;
+        color: #0d6efd;
+        margin-bottom: 4px;
+    }
+
+    .avaliacao-alert p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+
+    /* =========================
+           TÍTULO DA LISTA
+           ========================= */
+
+    .cenario-section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #22324a;
+        margin-bottom: 22px;
+    }
+
+    .cenario-section-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* =========================
+           CARD DO CENÁRIO
+           ========================= */
+
+    .cenario-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        height: 100%;
+        transition: .25s;
+        overflow: hidden;
+    }
+
+        .cenario-card:hover {
+            transform: translateY(-4px);
+            border-color: #cfe0ff;
+            box-shadow: 0 12px 28px rgba(13,38,76,.10);
+        }
+
+
+    /* =========================
+           NÚMERO DO CENÁRIO
+           ========================= */
+
+    .cenario-number {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 17px;
+        margin-bottom: 16px;
+    }
+
+
+    /* =========================
+           TÍTULO DO CENÁRIO
+           ========================= */
+
+    .cenario-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #22324a;
+        margin-bottom: 12px;
+    }
+
+
+    /* =========================
+           QUEIXA
+           ========================= */
+
+    .cenario-queixa {
+        color: #657386;
+        line-height: 1.6;
+        min-height: 65px;
+        margin-bottom: 20px;
+    }
+
+
+    /* =========================
+           BOTÃO
+           ========================= */
+
+    .btn-classificar {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 12px 20px;
+        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
+        color: white;
+        font-weight: 700;
+        transition: .25s;
+        box-shadow: 0 7px 18px rgba(13,110,253,.20);
+    }
+
+        .btn-classificar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(13,110,253,.30);
+            color: white;
+        }
+
+
+    /* =========================
+           ÁREA DE AÇÕES
+           ========================= */
+
+    .avaliacao-actions {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #eef1f6;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+
+    /* =========================
+           BOTÃO QUESTIONÁRIO
+           ========================= */
+
+    .btn-questionario {
+        border-radius: 14px;
+        padding: 13px 25px;
+        font-weight: 700;
+        background: linear-gradient( 135deg, #198754, #126b40 );
+        border: none;
+        color: white;
+        transition: .25s;
+        box-shadow: 0 7px 18px rgba(25,135,84,.20);
+    }
+
+        .btn-questionario:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 10px 24px rgba(25,135,84,.30);
+        }
+
+
+    /* =========================
+           BOTÃO MÉTRICAS
+           ========================= */
+
+    .btn-metricas {
+        border-radius: 14px;
+        padding: 13px 25px;
+        font-weight: 700;
+        border: 1px solid #0d6efd;
+        color: #0d6efd;
+        background: white;
+        transition: .25s;
+    }
+
+        .btn-metricas:hover {
+            transform: translateY(-2px);
+            background: #0d6efd;
+            color: white;
+        }
+
+
+    /* =========================
+           ANIMAÇÃO
+           ========================= */
+
+    .avaliacao-shell {
+        animation: avaliacaoFade .5s ease;
+    }
+
+    @@keyframes avaliacaoFade {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* =========================
+           RESPONSIVO
+           ========================= */
+
+    @@media (max-width: 768px) {
+
+        .avaliacao-header {
+            padding: 35px 20px;
+        }
+
+            .avaliacao-header h1 {
+                font-size: 1.6rem;
+            }
+
+        .avaliacao-content {
+            padding: 28px 20px;
+        }
+
+        .avaliacao-actions {
+            flex-direction: column;
+        }
+
+        .btn-questionario,
+        .btn-metricas {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+<div class="container py-5">
+
+    <div class="avaliacao-shell">
+
+
+        <!-- =========================
+             CABEÇALHO
+             ========================= -->
+
+        <div class="avaliacao-header">
+
+            <div class="avaliacao-header-content">
+
+                <div class="avaliacao-header-icon">
+
+                    <i class="bi bi-clipboard2-pulse-fill"></i>
+
+                </div>
+
+                <h1>
+                    Avaliação do Protótipo
+                </h1>
+
+                <p>
+                    Avalie os cenários clínicos e compare sua decisão
+                    com a recomendação do assistente.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CONTEÚDO
+             ========================= -->
+
+        <div class="avaliacao-content">
+
+
+            <!-- =========================
+                 EXPLICAÇÃO
+                 ========================= -->
+
+            <div class="avaliacao-alert">
+
+                <div class="avaliacao-alert-icon">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Como funciona?
+                    </strong>
+
+                    <p>
+                        Analise cada cenário clínico e informe a
+                        classificação de risco que você considera
+                        adequada. Em seguida, o sistema realizará
+                        sua própria classificação e permitirá
+                        comparar as duas decisões com o padrão
+                        de referência.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 TÍTULO DOS CENÁRIOS
+                 ========================= -->
+
+            <div class="cenario-section-title">
+
+                <span class="cenario-section-icon">
+
+                    <i class="bi bi-clipboard2-check-fill"></i>
+
+                </span>
+
+                Cenários Clínicos
+
+            </div>
+
+
+            <!-- =========================
+                 LISTA DE CENÁRIOS
+                 ========================= -->
+
+            <div class="row g-4">
+
+                @{
+                    int numeroCenario = 1;
+                }
+
+                @foreach (var cenario in Model)
+                {
+                    <div class="col-md-6">
+
+                        <div class="cenario-card">
+
+                            <div class="card-body p-4">
+
+
+                                <!-- Número -->
+
+                                <div class="cenario-number">
+
+                                    @numeroCenario
+
+                                </div>
+
+
+                                <!-- Título -->
+
+                                <h4 class="cenario-title">
+
+                                    @cenario.Titulo
+
+                                </h4>
+
+
+                                <!-- Queixa -->
+
+                                <p class="cenario-queixa">
+
+                                    @cenario.QueixaPrincipal
+
+                                </p>
+
+
+                                <!-- Botão -->
+
+                                <a asp-action="Responder"
+                                   asp-route-id="@cenario.Id"
+                                   class="btn btn-classificar">
+
+                                    <i class="bi bi-clipboard-check me-2"></i>
+
+                                    Classificar cenário
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    numeroCenario++;
+                }
+
+            </div>
+
+
+            <!-- =========================
+                 AÇÕES
+                 ========================= -->
+
+            <div class="avaliacao-actions">
+
+                <a asp-action="Questionario"
+                   class="btn btn-questionario">
+
+                    <i class="bi bi-pencil-square me-2"></i>
+
+                    Responder questionário
+
+                </a>
+
+
+                <a asp-action="Metricas"
+                   class="btn btn-metricas">
+
+                    <i class="bi bi-bar-chart-fill me-2"></i>
+
+                    Ver resultados
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```

@@ -1,0 +1,334 @@
+﻿@model AssistenteParaTriagem.Models.AvaliacaoCenario
+
+@{
+    ViewData["Title"] = "Resultado da Avaliação";
+
+    bool concordante =
+        Model.CorProfissional == Model.CorSistema;
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold text-primary">
+            Resultado da Avaliação
+        </h1>
+
+        <p class="text-muted">
+            Comparação entre profissional, sistema e padrão-ouro
+        </p>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CLASSIFICAÇÕES -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4">
+
+        <!-- PROFISSIONAL -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center h-100">
+
+                <div class="card-body">
+
+                    <h5>
+                        Classificação profissional
+                    </h5>
+
+                    <h2 class="fw-bold text-primary mt-3">
+                        @Model.CorProfissional
+                    </h2>
+
+                    @if (Model.ProfissionalAcertou)
+                    {
+                        <span class="badge bg-success">
+                            Acertou
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            Diferente do padrão
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SISTEMA -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center h-100">
+
+                <div class="card-body">
+
+                    <h5>
+                        Classificação do sistema
+                    </h5>
+
+                    <h2 class="fw-bold text-primary mt-3">
+                        @Model.CorSistema
+                    </h2>
+
+                    @if (Model.SistemaAcertou)
+                    {
+                        <span class="badge bg-success">
+                            Acertou
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            Diferente do padrão
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PADRÃO OURO -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow text-center h-100">
+
+                <div class="card-body">
+
+                    <h5>
+                        Padrão-ouro
+                    </h5>
+
+                    <h2 class="fw-bold text-success mt-3">
+                        @Model.CorPadraoOuro
+                    </h2>
+
+                    <span class="badge bg-secondary">
+                        Referência
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CONCORDÂNCIA -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body text-center">
+
+            <h4 class="text-primary">
+                Resultado da comparação
+            </h4>
+
+            @if (concordante)
+            {
+                <div class="alert alert-success mt-4">
+
+                    <h3 class="fw-bold">
+                        ✓ Concordante
+                    </h3>
+
+                    <p class="mb-0">
+                        A classificação do profissional é igual
+                        à classificação atribuída pelo sistema.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning mt-4">
+
+                    <h3 class="fw-bold">
+                        ⚠ Discordante
+                    </h3>
+
+                    <p class="mb-0">
+                        A classificação do profissional é diferente
+                        da classificação atribuída pelo sistema.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CLASSIFICAÇÃO DO SISTEMA -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Justificativa do sistema
+            </h4>
+
+            <p class="mt-3">
+                @Model.JustificativaSistema
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- DISCRIMINADORES -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-4">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Discriminadores identificados
+            </h4>
+
+            <p class="mt-3">
+                @(string.IsNullOrWhiteSpace(
+                    Model.DiscriminadoresIdentificados)
+                    ? "Nenhum discriminador identificado."
+                    : Model.DiscriminadoresIdentificados)
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- REGRAS -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-4">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Regras aplicadas
+            </h4>
+
+            <p class="mt-3">
+                @(string.IsNullOrWhiteSpace(
+                    Model.RegrasAplicadas)
+                    ? "Nenhuma regra específica registrada."
+                    : Model.RegrasAplicadas)
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SEGURANÇA -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-4">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Indicadores de segurança
+            </h4>
+
+            <div class="row mt-4">
+
+                <div class="col-md-6">
+
+                    @if (Model.Subtriagem)
+                    {
+                        <div class="alert alert-danger">
+                            <strong>
+                                Under-triage identificado
+                            </strong>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success">
+                            <strong>
+                                Sem under-triage
+                            </strong>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="col-md-6">
+
+                    @if (Model.Supertriagem)
+                    {
+                        <div class="alert alert-warning">
+                            <strong>
+                                Over-triage identificado
+                            </strong>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success">
+                            <strong>
+                                Sem over-triage
+                            </strong>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- BOTÕES -->
+    <!-- ===================================================== -->
+
+    <div class="text-center mt-5">
+
+        <a asp-action="Index"
+           class="btn btn-primary me-2">
+
+            Nova avaliação
+
+        </a>
+
+        <a asp-action="Metricas"
+           class="btn btn-outline-primary">
+
+            Ver métricas
+
+        </a>
+
+    </div>
+
+</div>
