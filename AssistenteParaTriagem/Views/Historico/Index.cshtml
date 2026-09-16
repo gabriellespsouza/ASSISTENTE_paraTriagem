@@ -1,72 +1,374 @@
-﻿@model IEnumerable<AssistenteParaTriagem.Models.AvaliacaoTriagem>
+﻿@model IEnumerable<AssistenteParaTriagem.Models.AuditLogs>
 
 @{
-    ViewData["Title"] = "Histórico de Triagens";
+    ViewData["Title"] = "Histórico de Auditoria";
 }
 
 <div class="container py-5">
 
-    <h1 class="text-primary fw-bold mb-4">
-        Histórico de Triagens
-    </h1>
+    <div class="text-center mb-5">
+
+        <h1 class="text-primary fw-bold">
+            Histórico de Auditoria
+        </h1>
+
+        <p class="text-muted">
+            Registro das decisões realizadas pelo assistente
+            inteligente de triagem.
+        </p>
+
+    </div>
 
     <div class="card border-0 shadow">
 
         <div class="card-body">
 
-            <div class="table-responsive">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    Nenhuma triagem foi registrada ainda.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
 
-                <table class="table table-hover align-middle">
+                    <table class="table table-hover align-middle">
 
-                    <thead>
+                        <thead>
 
-                        <tr>
-                            <th>Data</th>
-                            <th>Profissional</th>
-                            <th>Queixa</th>
-                            <th>Classificação</th>
-                            <th>Tempo</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var item in Model)
-                        {
                             <tr>
 
-                                <td>
-                                    @item.DataHora.ToString(
-                                        "dd/MM/yyyy HH:mm")
-                                </td>
+                                <th>Data/Hora</th>
 
-                                <td>
-                                    @item.NomeProfissional
-                                </td>
+                                <th>Profissional</th>
 
-                                <td>
-                                    @item.Queixa
-                                </td>
+                                <th>Queixa</th>
 
-                                <td>
-                                    <strong>
-                                        @item.CorRisco
-                                    </strong>
-                                </td>
+                                <th>Discriminadores</th>
 
-                                <td>
-                                    @item.TempoMaximo min
-                                </td>
+                                <th>Regras</th>
+
+                                <th>Classificação</th>
+
+                                <th>Tempo</th>
+
+                                <th>Detalhes</th>
 
                             </tr>
-                        }
 
-                    </tbody>
+                        </thead>
 
-                </table>
+                        <tbody>
 
-            </div>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @item.DataHora.ToString(
+                                            "dd/MM/yyyy HH:mm:ss")
+                                    </td>
+
+                                    <td>
+                                        @item.NomeProfissional
+                                    </td>
+
+                                    <td>
+                                        @item.Queixa
+                                    </td>
+
+                                    <td>
+                                        @if (string.IsNullOrWhiteSpace(
+                                            item.Discriminadores))
+                                        {
+                                            <span class="text-muted">
+                                                Nenhum
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            @item.Discriminadores
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (string.IsNullOrWhiteSpace(
+                                            item.RegrasAplicadas))
+                                        {
+                                            <span class="text-muted">
+                                                Nenhuma
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            @item.RegrasAplicadas
+                                        }
+                                    </td>
+
+                                    <td>
+
+                                        @switch (item.CorRisco)
+                                        {
+                                            case
+                                                AssistenteParaTriagem.Models.CorTriagem.Vermelho:
+
+                                                <span class="badge bg-danger">
+                                                    Vermelho
+                                                </span>
+
+                                                break;
+
+                                            case
+                                                AssistenteParaTriagem.Models.CorTriagem.Laranja:
+
+                                                <span class="badge"
+                                                      style="background-color: #fd7e14;">
+                                                    Laranja
+                                                </span>
+
+                                                break;
+
+                                            case
+                                                AssistenteParaTriagem.Models.CorTriagem.Amarelo:
+
+                                                <span class="badge bg-warning text-dark">
+                                                    Amarelo
+                                                </span>
+
+                                                break;
+
+                                            case
+                                                AssistenteParaTriagem.Models.CorTriagem.Verde:
+
+                                                <span class="badge bg-success">
+                                                    Verde
+                                                </span>
+
+                                                break;
+
+                                            case
+                                                AssistenteParaTriagem.Models.CorTriagem.Azul:
+
+                                                <span class="badge bg-primary">
+                                                    Azul
+                                                </span>
+
+                                                break;
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.TempoMaximo min
+                                    </td>
+
+                                    <td>
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modal-@item.Id">
+
+                                            Ver detalhes
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- MODAIS -->
+                @foreach (var item in Model)
+                {
+                    <div class="modal fade"
+                         id="modal-@item.Id"
+                         tabindex="-1"
+                         aria-hidden="true">
+
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">
+                                        Detalhes da Auditoria #@item.Id
+                                    </h5>
+
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal">
+                                    </button>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <h6 class="text-primary fw-bold">
+                                        Identificação
+                                    </h6>
+
+                                    <p>
+                                        <strong>Profissional:</strong>
+                                        @item.NomeProfissional
+                                    </p>
+
+                                    <p>
+                                        <strong>Data/Hora:</strong>
+                                        @item.DataHora.ToString(
+                                            "dd/MM/yyyy HH:mm:ss")
+                                    </p>
+
+                                    <hr />
+
+                                    <h6 class="text-primary fw-bold">
+                                        Entradas
+                                    </h6>
+
+                                    <p>
+                                        <strong>Queixa:</strong>
+                                        @item.Queixa
+                                    </p>
+
+                                    <p>
+                                        <strong>Sintomas:</strong>
+                                        @item.Sintomas
+                                    </p>
+
+                                    <hr />
+
+                                    <h6 class="text-primary fw-bold">
+                                        Sinais Vitais
+                                    </h6>
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <strong>FC:</strong>
+                                            @(item.FrequenciaCardiaca?.ToString()
+                                              ?? "Não informado")
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <strong>FR:</strong>
+                                            @(item.FrequenciaRespiratoria?.ToString()
+                                              ?? "Não informado")
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <strong>PAS:</strong>
+                                            @(item.PressaoSistolica?.ToString()
+                                              ?? "Não informado")
+                                        </div>
+
+                                        <div class="col-md-4 mt-3">
+                                            <strong>SpO₂:</strong>
+                                            @(item.Saturacao?.ToString()
+                                              ?? "Não informado")
+                                        </div>
+
+                                        <div class="col-md-4 mt-3">
+                                            <strong>Temperatura:</strong>
+                                            @(item.Temperatura?.ToString("F1")
+                                              ?? "Não informado")
+                                        </div>
+
+                                        <div class="col-md-4 mt-3">
+                                            <strong>Inconsciente:</strong>
+                                            @(item.PacienteInconsciente
+                                                ? "Sim"
+                                                : "Não")
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <h6 class="text-primary fw-bold">
+                                        Processamento do PLN
+                                    </h6>
+
+                                    <p>
+                                        <strong>Discriminadores identificados:</strong>
+                                    </p>
+
+                                    <div class="alert alert-light border">
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.Discriminadores)
+                                            ? "Nenhum discriminador identificado."
+                                            : item.Discriminadores)
+                                    </div>
+
+                                    <hr />
+
+                                    <h6 class="text-primary fw-bold">
+                                        Motor de Regras
+                                    </h6>
+
+                                    <p>
+                                        <strong>Regras aplicadas:</strong>
+                                    </p>
+
+                                    <div class="alert alert-light border">
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.RegrasAplicadas)
+                                            ? "Nenhuma regra registrada."
+                                            : item.RegrasAplicadas)
+                                    </div>
+
+                                    <hr />
+
+                                    <h6 class="text-primary fw-bold">
+                                        Resultado
+                                    </h6>
+
+                                    <p>
+                                        <strong>Classificação:</strong>
+                                        @item.CorRisco
+                                    </p>
+
+                                    <p>
+                                        <strong>Tempo máximo:</strong>
+                                        @item.TempoMaximo minutos
+                                    </p>
+
+                                    <p>
+                                        <strong>Justificativa:</strong>
+                                    </p>
+
+                                    <div class="alert alert-info">
+                                        @item.Justificativa
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+
+                                        Fechar
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
 
         </div>
 

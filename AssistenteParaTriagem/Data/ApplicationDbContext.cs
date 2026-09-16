@@ -14,6 +14,8 @@ namespace AssistenteParaTriagem.Models
 
         public DbSet<AvaliacaoTriagem> Avaliacoes { get; set; }
 
+        public DbSet<AuditLogs> AuditLogs { get; set; }
+
         public DbSet<CenarioClinico> CenariosClinicos { get; set; }
 
         public DbSet<AvaliacaoCenario> AvaliacoesCenarios { get; set; }
@@ -23,6 +25,10 @@ namespace AssistenteParaTriagem.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // ==========================================
+            // AVALIAÇÃO DE TRIAGEM
+            // ==========================================
 
             builder.Entity<AvaliacaoTriagem>(entity =>
             {
@@ -48,6 +54,56 @@ namespace AssistenteParaTriagem.Models
                     .HasMaxLength(2000);
             });
 
+            // ==========================================
+            // LOG DE AUDITORIA
+            // ==========================================
+
+            builder.Entity<AuditLogs>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.NomeProfissional)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Queixa)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Sintomas)
+                    .HasMaxLength(2000);
+
+                entity.Property(e => e.Discriminadores)
+                    .HasMaxLength(3000);
+
+                entity.Property(e => e.RegrasAplicadas)
+                    .HasMaxLength(3000);
+
+                entity.Property(e => e.Justificativa)
+                    .IsRequired()
+                    .HasMaxLength(3000);
+
+                entity.Property(e => e.TipoOperacao)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.DataHora)
+                    .IsRequired();
+
+                entity.HasIndex(e => e.DataHora);
+
+                entity.HasIndex(e => e.UserId);
+
+                entity.HasIndex(e => e.CorRisco);
+            });
+
+            // ==========================================
+            // CENÁRIOS
+            // ==========================================
+
             builder.Entity<AvaliacaoCenario>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -61,6 +117,10 @@ namespace AssistenteParaTriagem.Models
                     .IsRequired()
                     .HasMaxLength(150);
             });
+
+            // ==========================================
+            // CENÁRIOS CLÍNICOS
+            // ==========================================
 
             builder.Entity<CenarioClinico>(entity =>
             {
@@ -80,6 +140,10 @@ namespace AssistenteParaTriagem.Models
                 entity.Property(e => e.DiscriminadoresEsperados)
                     .HasMaxLength(2000);
             });
+
+            // ==========================================
+            // QUESTIONÁRIO
+            // ==========================================
 
             builder.Entity<RespostaQuestionario>(entity =>
             {

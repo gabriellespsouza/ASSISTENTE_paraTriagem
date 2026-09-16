@@ -3,6 +3,7 @@ using System;
 using AssistenteParaTriagem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,98 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssistenteParaTriagem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260916124258_AdicionarAuditoriaTriagem")]
+    partial class AdicionarAuditoriaTriagem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.29");
-
-            modelBuilder.Entity("AssistenteParaTriagem.Models.AuditLogs", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CorRisco")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DataHora")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("DecisaoConcluida")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Discriminadores")
-                        .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("FrequenciaCardiaca")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("FrequenciaRespiratoria")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Justificativa")
-                        .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NomeProfissional")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PacienteInconsciente")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("PressaoSistolica")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Queixa")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RegrasAplicadas")
-                        .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("Saturacao")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Sintomas")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("Temperatura")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("TempoMaximo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TipoOperacao")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CorRisco");
-
-                    b.HasIndex("DataHora");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AuditLogs");
-                });
 
             modelBuilder.Entity("AssistenteParaTriagem.Models.AvaliacaoCenario", b =>
                 {

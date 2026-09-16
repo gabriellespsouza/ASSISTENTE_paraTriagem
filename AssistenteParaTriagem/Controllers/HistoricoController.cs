@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AssistenteParaTriagem.Controllers
 {
@@ -10,8 +11,7 @@ namespace AssistenteParaTriagem.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public HistoricoController(
-            ApplicationDbContext context)
+        public HistoricoController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -19,10 +19,14 @@ namespace AssistenteParaTriagem.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var historico =
-                await _context.Avaliacoes
-                    .OrderByDescending(a => a.DataHora)
-                    .ToListAsync();
+            var userId = User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+            var historico = await _context.AuditLogs
+                .AsNoTracking()
+                .Where(a => a.UserId == userId)
+                .OrderByDescending(a => a.DataHora)
+                .ToListAsync();
 
             return View(historico);
         }
