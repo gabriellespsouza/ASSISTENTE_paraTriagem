@@ -207,6 +207,165 @@
 
     </div>
 
+    <!-- ===================================================== -->
+    <!-- VALIDAÇÃO ESPECÍFICA DO PLN -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-body">
+
+            <h4 class="text-primary">
+                Validação específica do PLN
+            </h4>
+
+            <p class="text-muted">
+                Avaliação da capacidade do processamento de linguagem
+                natural em identificar os discriminadores esperados
+                nos cenários clínicos.
+            </p>
+
+            <div class="row g-4 mt-3">
+
+                <div class="col-md-3">
+
+                    <div class="card border text-center h-100">
+
+                        <div class="card-body">
+
+                            <h6>Cenários avaliados</h6>
+
+                            <h3 class="fw-bold">
+                                @Model.PlnTotalCenarios
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card border text-center h-100">
+
+                        <div class="card-body">
+
+                            <h6>Precisão do PLN</h6>
+
+                            <h3 class="fw-bold text-success">
+                                @Model.PlnPrecisao.ToString("F2")%
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card border text-center h-100">
+
+                        <div class="card-body">
+
+                            <h6>Recall / Sensibilidade</h6>
+
+                            <h3 class="fw-bold">
+                                @Model.PlnRecall.ToString("F2")%
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card border text-center h-100">
+
+                        <div class="card-body">
+
+                            <h6>F1-score</h6>
+
+                            <h3 class="fw-bold">
+                                @Model.PlnF1.ToString("F2")%
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row mt-4">
+
+                <div class="col-md-4">
+
+                    <div class="alert alert-success">
+
+                        <strong>
+                            Verdadeiros positivos
+                        </strong>
+
+                        <br />
+
+                        @Model.PlnVerdadeirosPositivos
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="alert alert-warning">
+
+                        <strong>
+                            Falsos positivos
+                        </strong>
+
+                        <br />
+
+                        @Model.PlnFalsosPositivos
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="alert alert-danger">
+
+                        <strong>
+                            Falsos negativos
+                        </strong>
+
+                        <br />
+
+                        @Model.PlnFalsosNegativos
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="alert alert-secondary mt-3">
+
+                <strong>Como interpretar:</strong>
+
+                A validação compara os discriminadores identificados
+                pelo PLN com os discriminadores esperados definidos
+                para cada cenário clínico.
+
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- ===================================================== -->
     <!-- CONCORDÂNCIA -->

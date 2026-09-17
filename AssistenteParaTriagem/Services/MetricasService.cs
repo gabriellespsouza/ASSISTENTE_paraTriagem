@@ -6,11 +6,14 @@ namespace AssistenteParaTriagem.Services
     public class MetricasService
     {
         private readonly ApplicationDbContext _context;
+        private readonly ValidacaoPlnService _validacaoPln;
 
         public MetricasService(
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            ValidacaoPlnService validacaoPln)
         {
             _context = context;
+            _validacaoPln = validacaoPln;
         }
 
         // =========================================================
@@ -62,8 +65,40 @@ namespace AssistenteParaTriagem.Services
                     .AsNoTracking()
                     .ToListAsync();
 
+            var cenarios =
+                await _context.CenariosClinicos
+                    .AsNoTracking()
+                    .OrderBy(c => c.Id)
+                    .ToListAsync();
+
+            var validacaoPln =
+                _validacaoPln.Calcular(cenarios);
+
             var resultado =
-                new ResultadoMetricas();
+    new ResultadoMetricas();
+
+            resultado.PlnTotalCenarios =
+                validacaoPln.TotalCenarios;
+
+            resultado.PlnVerdadeirosPositivos =
+                validacaoPln.VerdadeirosPositivos;
+
+            resultado.PlnFalsosPositivos =
+                validacaoPln.FalsosPositivos;
+
+            resultado.PlnFalsosNegativos =
+                validacaoPln.FalsosNegativos;
+
+            resultado.PlnPrecisao =
+                validacaoPln.Precisao;
+
+            resultado.PlnRecall =
+                validacaoPln.Recall;
+
+            resultado.PlnF1 =
+                validacaoPln.F1;
+
+        
 
             // -----------------------------------------------------
             // Nenhuma avaliação

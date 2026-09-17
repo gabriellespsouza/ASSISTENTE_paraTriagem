@@ -40,6 +40,9 @@ builder.Services.AddScoped<
     ManchesterRulesService>();
 
 builder.Services.AddScoped<
+    ValidacaoPlnService>();
+
+builder.Services.AddScoped<
     MetricasService>();
 
 var app = builder.Build();

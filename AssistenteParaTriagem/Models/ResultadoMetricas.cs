@@ -35,5 +35,19 @@
         public double MediaRecomendacao { get; set; }
 
         public double ConcordanciaProfissionalSistema { get; set; }
+
+        public int PlnTotalCenarios { get; set; }
+
+        public int PlnVerdadeirosPositivos { get; set; }
+
+        public int PlnFalsosPositivos { get; set; }
+
+        public int PlnFalsosNegativos { get; set; }
+
+        public double PlnPrecisao { get; set; }
+
+        public double PlnRecall { get; set; }
+
+        public double PlnF1 { get; set; }
     }
 }
