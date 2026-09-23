@@ -20,37 +20,14 @@ namespace AssistenteParaTriagem.Services
         {
             var resultado = new ResultadoValidacaoPln();
 
-            var verdadeirosPositivos = 0;
-            var falsosPositivos = 0;
-            var falsosNegativos = 0;
+            int verdadeirosPositivos = 0;
+            int falsosPositivos = 0;
+            int falsosNegativos = 0;
 
             foreach (var cenario in cenarios)
             {
-                resultado.TotalCenarios++;
-
-                var texto =
-                    $"{cenario.QueixaPrincipal} {cenario.Sintomas}";
-
-                // ============================================
-                // DISCRIMINADORES ENCONTRADOS PELO PLN
-                // ============================================
-
-                var encontrados =
-                    _pln.Extrair(
-                        texto,
-                        _dataset.Discriminadores);
-
-                var encontradosNormalizados =
-                    encontrados
-                        .Select(d => Normalizar(d.Nome))
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .Distinct()
-                        .ToHashSet();
-
-                // ============================================
-                // DISCRIMINADORES ESPERADOS
-                // ============================================
-
+                // Só entra na validação se o cenário possuir
+                // discriminadores esperados cadastrados.
                 var esperadosNormalizados =
                     SepararDiscriminadores(
                         cenario.DiscriminadoresEsperados)
@@ -59,33 +36,66 @@ namespace AssistenteParaTriagem.Services
                     .Distinct()
                     .ToHashSet();
 
-                // ============================================
-                // VERDADEIROS POSITIVOS
-                // ============================================
+                // Sem discriminadores esperados não existe
+                // referência para avaliar o PLN.
+                if (esperadosNormalizados.Count == 0)
+                {
+                    continue;
+                }
 
-                verdadeirosPositivos +=
+                resultado.TotalCenarios++;
+
+                // Texto clínico utilizado pelo PLN.
+                var texto =
+                    $"{cenario.QueixaPrincipal} {cenario.Sintomas}";
+
+                // Discriminadores identificados pelo PLN.
+                var encontrados =
+                    _pln.Extrair(
+                        texto,
+                        _dataset.Discriminadores);
+
+                var encontradosNormalizados =
+                    encontrados
+                        .Select(d => d.Nome)
+                        .Select(Normalizar)
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .Distinct()
+                        .ToHashSet();
+
+                // ==================================================
+                // COMPARAÇÃO:
+                // PLN x DISCRIMINADORES ESPERADOS
+                // ==================================================
+
+                var verdadeirosPositivosDoCenario =
                     encontradosNormalizados
                         .Intersect(esperadosNormalizados)
                         .Count();
 
-                // ============================================
-                // FALSOS POSITIVOS
-                // ============================================
-
-                falsosPositivos +=
+                var falsosPositivosDoCenario =
                     encontradosNormalizados
                         .Except(esperadosNormalizados)
                         .Count();
 
-                // ============================================
-                // FALSOS NEGATIVOS
-                // ============================================
-
-                falsosNegativos +=
+                var falsosNegativosDoCenario =
                     esperadosNormalizados
                         .Except(encontradosNormalizados)
                         .Count();
+
+                verdadeirosPositivos +=
+                    verdadeirosPositivosDoCenario;
+
+                falsosPositivos +=
+                    falsosPositivosDoCenario;
+
+                falsosNegativos +=
+                    falsosNegativosDoCenario;
             }
+
+            // ======================================================
+            // RESULTADOS DA VALIDAÇÃO
+            // ======================================================
 
             resultado.VerdadeirosPositivos =
                 verdadeirosPositivos;
@@ -96,11 +106,12 @@ namespace AssistenteParaTriagem.Services
             resultado.FalsosNegativos =
                 falsosNegativos;
 
-            // ============================================
+            // ======================================================
             // PRECISÃO
-            // ============================================
+            // TP / (TP + FP)
+            // ======================================================
 
-            var denominadorPrecisao =
+            int denominadorPrecisao =
                 verdadeirosPositivos +
                 falsosPositivos;
 
@@ -110,11 +121,12 @@ namespace AssistenteParaTriagem.Services
                     : verdadeirosPositivos * 100.0 /
                       denominadorPrecisao;
 
-            // ============================================
-            // RECALL
-            // ============================================
+            // ======================================================
+            // RECALL / SENSIBILIDADE
+            // TP / (TP + FN)
+            // ======================================================
 
-            var denominadorRecall =
+            int denominadorRecall =
                 verdadeirosPositivos +
                 falsosNegativos;
 
@@ -124,9 +136,9 @@ namespace AssistenteParaTriagem.Services
                     : verdadeirosPositivos * 100.0 /
                       denominadorRecall;
 
-            // ============================================
-            // F1
-            // ============================================
+            // ======================================================
+            // F1-SCORE
+            // ======================================================
 
             if (resultado.Precisao +
                 resultado.Recall > 0)
@@ -138,6 +150,10 @@ namespace AssistenteParaTriagem.Services
                     (resultado.Precisao +
                      resultado.Recall);
             }
+            else
+            {
+                resultado.F1 = 0;
+            }
 
             return resultado;
         }
@@ -146,7 +162,9 @@ namespace AssistenteParaTriagem.Services
             SepararDiscriminadores(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
+            {
                 return Enumerable.Empty<string>();
+            }
 
             return texto
                 .Split(
@@ -160,11 +178,12 @@ namespace AssistenteParaTriagem.Services
                 .Select(x => x.Trim());
         }
 
-        private static string Normalizar(
-            string texto)
+        private static string Normalizar(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
+            {
                 return string.Empty;
+            }
 
             var normalizado =
                 texto
@@ -172,7 +191,8 @@ namespace AssistenteParaTriagem.Services
                     .Normalize(
                         System.Text.NormalizationForm.FormD);
 
-            var resultado = new System.Text.StringBuilder();
+            var resultado =
+                new System.Text.StringBuilder();
 
             foreach (var caractere in normalizado)
             {
@@ -190,7 +210,6 @@ namespace AssistenteParaTriagem.Services
 
             return resultado
                 .ToString()
-                .ToLowerInvariant()
                 .Trim();
         }
     }
