@@ -456,6 +456,20 @@
                  TÍTULO DOS CENÁRIOS
                  ========================= -->
 
+            @if (TempData["Aviso"] is string aviso)
+            {
+                <div class="alert alert-warning">
+                    @aviso
+                </div>
+            }
+
+            @if (TempData["Mensagem"] is string mensagem)
+            {
+                <div class="alert alert-success">
+                    @mensagem
+                </div>
+            }
+
             <div class="cenario-section-title">
 
                 <span class="cenario-section-icon">
@@ -477,6 +491,10 @@
 
                 @{
                     int numeroCenario = 1;
+
+                    var respondidos =
+                        ViewBag.Respondidos as HashSet<int>
+                        ?? new HashSet<int>();
                 }
 
                 @foreach (var cenario in Model)
@@ -517,15 +535,30 @@
 
                                 <!-- Botão -->
 
-                                <a asp-action="Responder"
-                                   asp-route-id="@cenario.Id"
-                                   class="btn btn-classificar">
+                                @if (respondidos.Contains(cenario.Id))
+                                {
+                                    <span class="btn btn-classificar disabled"
+                                          style="background:#6c757d; box-shadow:none;"
+                                          aria-disabled="true">
 
-                                    <i class="bi bi-clipboard-check me-2"></i>
+                                        <i class="bi bi-check-circle-fill me-2"></i>
 
-                                    Classificar cenário
+                                        Cenário já respondido
 
-                                </a>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <a asp-action="Responder"
+                                       asp-route-id="@cenario.Id"
+                                       class="btn btn-classificar">
+
+                                        <i class="bi bi-clipboard-check me-2"></i>
+
+                                        Classificar cenário
+
+                                    </a>
+                                }
 
                             </div>
 
@@ -571,4 +604,3 @@
     </div>
 
 </div>
-```

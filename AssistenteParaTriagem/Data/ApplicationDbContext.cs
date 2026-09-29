@@ -116,6 +116,14 @@ namespace AssistenteParaTriagem.Models
                 entity.Property(e => e.NomeProfissional)
                     .IsRequired()
                     .HasMaxLength(150);
+
+                // Cada participante responde cada cenário uma única vez
+                entity.HasIndex(e => new
+                {
+                    e.CenarioClinicoId,
+                    e.NomeProfissional
+                })
+                    .IsUnique();
             });
 
             // ==========================================

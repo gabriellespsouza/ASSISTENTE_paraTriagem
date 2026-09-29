@@ -10,8 +10,10 @@ hemorragia grave,sangramento intenso|sangramento grave|hemorragia intensa|perda 
 choque,choque circulatorio|choque circulatório|sinais de choque|instabilidade hemodinamica|instabilidade hemodinâmica,Choque circulatório,Laranja,4,Instabilidade hemodinâmica importante
 dor toracica,dor no peito|dor torácica|pressao no peito|pressão no peito,Dor torácica,Laranja,4,Queixa potencialmente grave que necessita avaliação rápida
 dor toracica intensa,dor intensa no peito|dor torácica intensa|dor forte no peito|dor forte no peito,Dor torácica intensa,Laranja,4,Dor torácica intensa com potencial de condição grave
+dor toracica moderada,dor no peito moderada,Dor torácica moderada,Amarelo,3,Dor torácica de intensidade moderada que necessita avaliação
 febre alta,febre elevada|febre muito alta|temperatura alta|febre persistente,Febre alta,Laranja,4,Febre elevada associada a possível quadro infeccioso importante
 dispneia,falta de ar|cansaco ao respirar|cansaço ao respirar|respiracao dificil|respiração difícil|dificuldade para respirar,Dispneia,Laranja,4,Desconforto respiratório relevante
+dispneia moderada,falta de ar moderada,Dispneia moderada,Amarelo,3,Alteração respiratória moderada que necessita avaliação
 sangramento importante,sangramento abundante|sangramento moderado|perda de sangue,Sangramento importante,Laranja,4,Sangramento que necessita avaliação prioritária
 dor intensa,dor muito forte|dor severa|dor intensa|dor insuportavel|dor insuportável,Dor intensa,Laranja,4,Dor intensa com necessidade de avaliação prioritária
 alteracao importante da consciencia,confusao intensa|confusão intensa|desorientacao intensa|desorientação intensa|alteracao da consciencia|alteração da consciência,Alteração importante da consciência,Laranja,4,Alteração neurológica relevante

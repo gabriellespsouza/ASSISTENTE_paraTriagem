@@ -30,6 +30,36 @@ namespace AssistenteParaTriagem.Controllers
         }
 
         // =========================================================
+        // CONTROLE DE RESPOSTAS REPETIDAS
+        // =========================================================
+
+        private string NomeParticipante()
+        {
+            return User.Identity?.Name ?? "Usuário";
+        }
+
+        private async Task<bool> JaRespondeuAsync(
+            int cenarioId)
+        {
+            var nome = NomeParticipante();
+
+            return await _context.AvaliacoesCenarios
+                .AsNoTracking()
+                .AnyAsync(a =>
+                    a.CenarioClinicoId == cenarioId &&
+                    a.NomeProfissional == nome);
+        }
+
+        private IActionResult RedirecionarJaRespondido()
+        {
+            TempData["Aviso"] =
+                "Você já respondeu este cenário. " +
+                "Cada cenário pode ser respondido uma única vez.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // =========================================================
         // LISTA DE CENÁRIOS
         // =========================================================
 
@@ -41,6 +71,18 @@ namespace AssistenteParaTriagem.Controllers
                     .AsNoTracking()
                     .OrderBy(c => c.Id)
                     .ToListAsync();
+
+            // Cenários que este participante já respondeu
+            var nome = NomeParticipante();
+
+            var respondidos =
+                await _context.AvaliacoesCenarios
+                    .AsNoTracking()
+                    .Where(a => a.NomeProfissional == nome)
+                    .Select(a => a.CenarioClinicoId)
+                    .ToListAsync();
+
+            ViewBag.Respondidos = respondidos.ToHashSet();
 
             return View(cenarios);
         }
@@ -60,6 +102,9 @@ namespace AssistenteParaTriagem.Controllers
 
             if (cenario == null)
                 return NotFound();
+
+            if (await JaRespondeuAsync(id))
+                return RedirecionarJaRespondido();
 
             return View(cenario);
         }
@@ -81,6 +126,13 @@ namespace AssistenteParaTriagem.Controllers
 
             if (cenario == null)
                 return NotFound();
+
+            // -----------------------------------------------------
+            // Cada participante responde cada cenário uma única vez
+            // -----------------------------------------------------
+
+            if (await JaRespondeuAsync(id))
+                return RedirecionarJaRespondido();
 
             // -----------------------------------------------------
             // Montagem do texto clínico
@@ -208,7 +260,22 @@ namespace AssistenteParaTriagem.Controllers
             _context.AvaliacoesCenarios
                 .Add(avaliacao);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                // Duas requisições simultâneas (ex.: clique duplo):
+                // o índice único do banco barra a segunda.
+                _context.Entry(avaliacao).State =
+                    EntityState.Detached;
+
+                if (await JaRespondeuAsync(id))
+                    return RedirecionarJaRespondido();
+
+                throw;
+            }
 
             return View(
                 "Resultado",
