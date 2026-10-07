@@ -1,6 +1,7 @@
 ﻿using AssistenteParaTriagem.Models;
 using CsvHelper;
 using System.Globalization;
+using System.Text;
 
 namespace AssistenteParaTriagem.Services
 {
@@ -35,7 +36,28 @@ namespace AssistenteParaTriagem.Services
                         $"Arquivo não encontrado: {caminho}");
                 }
 
-                using var reader = new StreamReader(caminho);
+                // Lê os bytes e decodifica de forma robusta: tenta UTF-8
+                // estrito e, se o arquivo estiver em ANSI (Windows-1252),
+                // usa Latin1. Evita acentos quebrados no léxico.
+                var bytes = File.ReadAllBytes(caminho);
+                string conteudo;
+
+                try
+                {
+                    conteudo = new UTF8Encoding(false, true).GetString(bytes);
+                }
+                catch (DecoderFallbackException)
+                {
+                    conteudo = Encoding.Latin1.GetString(bytes);
+
+                    _logger.LogWarning(
+                        "manchester.csv não está em UTF-8; lido como Latin1. " +
+                        "Salve o arquivo em UTF-8 para evitar problemas.");
+                }
+
+                conteudo = conteudo.TrimStart('\uFEFF');
+
+                using var reader = new StringReader(conteudo);
 
                 var config = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
                 {

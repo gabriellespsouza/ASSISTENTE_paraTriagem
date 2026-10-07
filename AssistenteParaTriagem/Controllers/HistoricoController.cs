@@ -1,4 +1,5 @@
 ﻿using AssistenteParaTriagem.Models;
+using AssistenteParaTriagem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,17 +11,20 @@ namespace AssistenteParaTriagem.Controllers
     public class HistoricoController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly AnonimizadorService _anon;
 
-        public HistoricoController(ApplicationDbContext context)
+        public HistoricoController(
+            ApplicationDbContext context,
+            AnonimizadorService anon)
         {
             _context = context;
+            _anon = anon;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(
-                ClaimTypes.NameIdentifier);
+            var userId = _anon.CodigoDoUsuario(User);
 
             var historico = await _context.AuditLogs
                 .AsNoTracking()

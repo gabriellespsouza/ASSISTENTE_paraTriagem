@@ -31,6 +31,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<
+    AnonimizadorService>();
+
+builder.Services.AddSingleton<
     DatasetManchesterService>();
 
 builder.Services.AddScoped<
@@ -44,6 +47,8 @@ builder.Services.AddScoped<
 
 builder.Services.AddScoped<
     MetricasService>();
+
+builder.Services.AddScoped<ValidacaoAutomaticaService>();
 
 var app = builder.Build();
 
@@ -107,6 +112,12 @@ using (var scope = app.Services.CreateScope())
         services.GetRequiredService<ApplicationDbContext>();
 
     await DbInitializer.InicializarAsync(context);
+
+    // Troca e-mails/nomes já gravados por códigos anônimos
+    await AnonimizacaoInicial.ExecutarAsync(
+        context,
+        services.GetRequiredService<AnonimizadorService>(),
+        app.Logger);
 }
 
 app.Run();

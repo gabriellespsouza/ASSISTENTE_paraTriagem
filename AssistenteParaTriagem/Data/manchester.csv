@@ -1,44 +1,64 @@
-PalavraChave,Sinonimos,Nome,Cor,Gravidade,Justificativa
-parada cardiaca,parada|parada cardiorrespiratoria|parada card�aca|parada cardiorrespirat�ria,Parada cardiorrespirat�ria,Vermelho,5,Comprometimento imediato das fun��es vitais
-inconsciente,desacordado|sem resposta|perda de consciencia|perda de consci�ncia,Paciente inconsciente,Vermelho,5,Altera��o grave do n�vel de consci�ncia
-convulsao,convuls�o|crise convulsiva|convulsao ativa|convuls�o ativa,Convuls�o ativa,Vermelho,5,Emerg�ncia neurol�gica
-saturacao baixa,spo2 baixa|satura��o baixa|oxigenacao baixa|oxigena��o baixa,Oxigena��o gravemente comprometida,Vermelho,5,Comprometimento respirat�rio grave
-falta de ar intensa,dispneia grave|dispneia intensa|falta de ar grave|dificuldade respiratoria intensa|dificuldade respirat�ria intensa,Dispneia grave,Vermelho,5,Risco respirat�rio grave
-trauma grave,trauma intenso|traumatismo grave|acidente grave,Trauma grave,Vermelho,5,Risco de les�o grave ou comprometimento vital
-colapso,queda subita|queda s�bita|colapso subito|colapso s�bito,Colapso s�bito,Vermelho,5,Instabilidade cl�nica potencialmente grave
-hemorragia grave,sangramento intenso|sangramento grave|hemorragia intensa|perda de sangue importante,Hemorragia grave,Vermelho,5,Risco de perda sangu�nea importante
-choque,choque circulatorio|choque circulat�rio|sinais de choque|instabilidade hemodinamica|instabilidade hemodin�mica,Choque circulat�rio,Laranja,4,Instabilidade hemodin�mica importante
-dor toracica,dor no peito|dor tor�cica|pressao no peito|press�o no peito,Dor tor�cica,Laranja,4,Queixa potencialmente grave que necessita avalia��o r�pida
-dor toracica intensa,dor intensa no peito|dor tor�cica intensa|dor forte no peito|dor forte no peito,Dor tor�cica intensa,Laranja,4,Dor tor�cica intensa com potencial de condi��o grave
-dor toracica moderada,dor no peito moderada,Dor tor�cica moderada,Amarelo,3,Dor tor�cica de intensidade moderada que necessita avalia��o
-febre alta,febre elevada|febre muito alta|temperatura alta|febre persistente,Febre alta,Laranja,4,Febre elevada associada a poss�vel quadro infeccioso importante
-dispneia,falta de ar|cansaco ao respirar|cansa�o ao respirar|respiracao dificil|respira��o dif�cil|dificuldade para respirar,Dispneia,Laranja,4,Desconforto respirat�rio relevante
-dispneia moderada,falta de ar moderada,Dispneia moderada,Amarelo,3,Altera��o respirat�ria moderada que necessita avalia��o
-sangramento importante,sangramento abundante|sangramento moderado|perda de sangue,Sangramento importante,Laranja,4,Sangramento que necessita avalia��o priorit�ria
-dor intensa,dor muito forte|dor severa|dor intensa|dor insuportavel|dor insuport�vel,Dor intensa,Laranja,4,Dor intensa com necessidade de avalia��o priorit�ria
-alteracao importante da consciencia,confusao intensa|confus�o intensa|desorientacao intensa|desorienta��o intensa|alteracao da consciencia|altera��o da consci�ncia,Altera��o importante da consci�ncia,Laranja,4,Altera��o neurol�gica relevante
-vomitos persistentes,vomitos repetidos|v�mitos repetidos|vomitando muito|vomito persistente|v�mito persistente,V�mitos persistentes,Laranja,4,V�mitos persistentes que podem causar comprometimento cl�nico
-taquicardia,pulso acelerado|coracao acelerado|cora��o acelerado|batimento acelerado,Taquicardia,Amarelo,3,Altera��o dos sinais vitais que necessita avalia��o
-palpitacao,palpitacoes|palpita��es|coracao disparado|cora��o disparado,Palpita��o,Amarelo,3,Altera��o card�aca que necessita avalia��o
-febre,temperatura elevada|temperatura aumentada|estado febril,Febre,Amarelo,3,Poss�vel processo infeccioso
-dispneia leve,falta de ar leve|cansaco leve ao respirar|cansa�o leve ao respirar,Dispneia leve,Amarelo,3,Altera��o respirat�ria que necessita avalia��o
-dor moderada,dor media|dor m�dia|dor moderada,Dor moderada,Amarelo,3,Dor de intensidade moderada
-dor abdominal,dor na barriga|dor de barriga|dor abdominal moderada,Dor abdominal,Amarelo,3,Queixa abdominal que necessita avalia��o cl�nica
-cefaleia moderada,dor de cabeca moderada|dor de cabe�a moderada,Cefaleia moderada,Amarelo,3,Dor de intensidade moderada
-sangramento moderado,sangramento pequeno|sangramento moderado,Sangramento moderado,Amarelo,3,Sangramento que necessita avalia��o
-vomito frequente,vomito frequente|v�mito frequente|vomitos frequentes|v�mitos frequentes,V�mitos frequentes,Amarelo,3,Sintoma persistente que necessita avalia��o
-dor abdominal intensa,dor forte na barriga|dor abdominal forte|dor abdominal intensa|dor muito forte na barriga,Dor abdominal intensa,Laranja,4,Dor abdominal intensa necessita avalia��o priorit�ria
-dor abdominal leve,dor de barriga leve|dor abdominal pequena|dor abdominal fraca,Dor abdominal leve,Verde,2,Quadro abdominal leve e est�vel
-vomito,vomitando|v�mito,V�mitos,Verde,2,V�mito isolado em quadro est�vel
-cefaleia,dor de cabeca|dor de cabe�a,Dor de cabe�a,Verde,2,Quadro est�vel sem sinais de gravidade
-dor leve,dor pequena|dor fraca|desconforto leve,Dor leve,Verde,2,Quadro est�vel
-tosse,tosse leve|tosse seca,Tosse,Verde,2,Quadro respirat�rio leve
-mal estar,mal-estar|indisposicao|indisposi��o,Mal-estar geral,Verde,2,Quadro inespec�fico sem sinais de gravidade
-nausea,n�usea|enjoo,N�usea,Verde,2,Sintoma leve sem sinais de gravidade
-resfriado,resfriado leve|coriza|nariz escorrendo,Resfriado leve,Verde,2,Quadro respirat�rio leve
-dor muscular,dor no corpo|mialgia|dor muscular leve,Dor muscular,Verde,2,Quadro musculoesquel�tico leve
-renovacao de receita,renovacao receita|renovar receita|minha receita|receita medica|receita m�dica,Renova��o de receita,Azul,1,Demanda administrativa
-pedido exame,solicitacao de exame|solicita��o de exame|pedir exame|pedido de exame,Pedido de exame simples,Azul,1,Demanda administrativa
-resultado exame,resultado de exame|ver resultado|buscar resultado,Resultado de exame,Azul,1,Demanda administrativa
-informacao,informa��o|informacoes|informa��es|duvida|d�vida|orientacao|orienta��o,Consulta para informa��o,Azul,1,Demanda administrativa
-atestado,solicitacao de atestado|solicita��o de atestado|pedido de atestado,Demanda administrativa,Azul,1,Demanda administrativa
+﻿PalavraChave,Sinonimos,Nome,Cor,Gravidade,Justificativa
+parada cardiaca,parada|parada cardiorrespiratória|parada cardiorrespiratoria|sem pulso,Parada cardiorrespiratória,Vermelho,5,Comprometimento imediato das funções vitais; requer avaliação e intervenção imediatas.
+inconsciente,desacordado|sem resposta|não responde|nao responde,Paciente inconsciente,Vermelho,5,Alteração grave do nível de consciência com potencial comprometimento imediato.
+via aerea comprometida,via aérea obstruída|via aerea obstruida|obstrução das vias aéreas|obstrucao das vias aereas|não consegue respirar por obstrução|nao consegue respirar por obstrucao,Via aérea comprometida,Vermelho,5,Comprometimento da via aérea representa risco imediato.
+convulsao ativa,convulsão|crise convulsiva ativa|crise convulsiva|convulsao em andamento,Convulsão ativa,Vermelho,5,Evento neurológico agudo em andamento que exige atendimento imediato.
+dificuldade respiratoria grave,falta de ar intensa|dispneia intensa|respiração muito difícil|respiracao muito dificil|não consegue respirar|nao consegue respirar,Dificuldade respiratória grave,Vermelho,5,Comprometimento respiratório importante com risco imediato.
+cianose,lábios arroxeados|labios arroxeados|pele azulada|coloração azulada|coloracao azulada,Cianose,Vermelho,5,Sinal de possível comprometimento grave da oxigenação.
+sangramento maciço,hemorragia intensa|sangramento abundante|perda importante de sangue|sangramento que não para|sangramento que nao para,Sangramento maciço,Vermelho,5,Perda sanguínea importante pode causar instabilidade imediata.
+choque circulatorio,sinais de choque|choque|colapso circulatório|colapso circulatorio|pele fria e pegajosa com fraqueza intensa,Choque circulatório,Vermelho,5,Sinais de instabilidade circulatória importante exigem avaliação imediata.
+trauma grave,traumatismo grave|trauma importante|trauma de alta energia|politrauma|acidente grave,Trauma grave,Vermelho,5,Trauma de grande gravidade pode representar risco imediato e requer avaliação urgente.
+fraqueza extrema,fraqueza muito intensa|fraqueza extrema|fraqueza incapacitante|não consegue ficar em pé|nao consegue ficar em pe,Fraqueza extrema,Vermelho,5,Fraqueza extrema associada a incapacidade funcional pode indicar quadro grave.
+dor toracica,dor no peito|dor torácica|dor toracica|pressão no peito|pressao no peito|aperto no peito,Dor torácica,Laranja,4,Queixa potencialmente grave; deve ser avaliada rapidamente e em conjunto com sintomas associados.
+dor toracica intensa,dor intensa no peito|dor forte no peito|dor toracica muito forte|aperto forte no peito,Dor torácica intensa,Laranja,4,Dor torácica intensa pode estar associada a condições potencialmente graves.
+dor toracica com sudorese,dor no peito com suor frio|dor torácica e sudorese|dor no peito e suor frio|dor no peito acompanhada de suor,Dor torácica com sudorese,Laranja,4,Dor torácica acompanhada de sudorese é um conjunto de achados que exige avaliação rápida.
+alteracao importante consciencia,confusão intensa|confusao intensa|desorientação intensa|desorientacao intensa|alteração importante da consciência|alteracao importante da consciencia,Alteração importante da consciência,Laranja,4,Alteração relevante do estado mental requer avaliação prioritária.
+confusao mental,confusão|confusao mental|estado confusional|desorientação|desorientacao,Confusão mental,Laranja,4,Alteração do estado mental necessita avaliação prioritária conforme contexto clínico.
+sangramento importante,sangramento moderadamente intenso|sangramento significativo|perda de sangue importante|sangramento persistente,Sangramento importante,Laranja,4,Sangramento significativo ou persistente necessita avaliação prioritária.
+vomito com sangue,hematêmese|hematemese|sangue no vômito|sangue no vomito|vomitar sangue,Vômito com sangue,Laranja,4,Presença de sangue no vômito exige avaliação prioritária.
+dor abdominal intensa,dor forte na barriga|dor abdominal forte|dor abdominal muito forte|dor abdominal severa,Dor abdominal intensa,Laranja,4,Dor abdominal intensa necessita avaliação prioritária e investigação clínica.
+trauma craniano,traumatismo craniano|trauma na cabeça|trauma de crânio|trauma de cranio|pancada na cabeça|pancada na cabeca,Trauma craniano,Laranja,4,Trauma craniano com sintomas ou mecanismo relevante necessita avaliação prioritária.
+alteracao visual aguda,perda súbita da visão|perda subita da visao|visão muito alterada|visao muito alterada|alteração visual súbita|alteracao visual subita,Alteração visual aguda,Laranja,4,Alteração visual de início agudo pode indicar condição que requer avaliação prioritária.
+desidratacao importante,desidratação grave|desidratacao grave|sinais importantes de desidratação|sinais importantes de desidratacao|muita desidratação,Desidratação importante,Laranja,4,Desidratação importante pode comprometer o estado clínico e requer avaliação prioritária.
+dor intensa,dor muito forte|dor severa|dor insuportável|dor insuportavel|dor incapacitante,Dor intensa,Laranja,4,Dor intensa e incapacitante necessita avaliação prioritária.
+prostracao intensa,prostração intensa|prostracao intensa|abatimento intenso|fraqueza com prostração|fraqueza com prostracao,Prostração intensa,Laranja,4,"Prostração intensa, especialmente com outros achados, pode indicar quadro relevante."
+febre alta com deterioracao,febre muito alta|febre alta com piora|febre alta e prostração|febre alta e prostracao,Febre alta com deterioração,Laranja,4,Febre associada a deterioração clínica requer avaliação prioritária.
+dor moderada,dor média|dor media|dor moderada|dor de intensidade moderada,Dor moderada,Amarelo,3,Dor de intensidade moderada necessita avaliação clínica.
+dor abdominal moderada,dor na barriga moderada|dor de barriga moderada|dor abdominal moderada,Dor abdominal moderada,Amarelo,3,Queixa abdominal moderada necessita avaliação clínica.
+cefaleia moderada,dor de cabeça moderada|dor de cabeca moderada|cefaleia moderada,Cefaleia moderada,Amarelo,3,Cefaleia de intensidade moderada necessita avaliação clínica.
+dispneia moderada,falta de ar moderada|cansaço para respirar|cansaco para respirar|dificuldade moderada para respirar,Dispneia moderada,Amarelo,3,Alteração respiratória moderada necessita avaliação.
+respiracao acelerada,respiração acelerada|respiracao acelerada|respiração rápida|respiracao rapida,Respiração acelerada,Amarelo,3,Frequência respiratória aumentada deve ser interpretada em conjunto com o quadro clínico.
+taquicardia,pulso acelerado|coração acelerado|coracao acelerado|batimento acelerado|coração muito rápido|coracao muito rapido,Taquicardia,Amarelo,3,Alteração da frequência cardíaca necessita avaliação conforme contexto.
+palpitacao,palpitações|palpitacoes|coração disparado|coracao disparado|sensação de coração acelerado|sensacao de coracao acelerado,Palpitação,Amarelo,3,"Queixa de palpitação necessita avaliação clínica, especialmente quando acompanhada de outros sintomas."
+febre,temperatura elevada|temperatura aumentada|estado febril|febril,Febre,Amarelo,3,"Febre necessita avaliação considerando idade, duração, sinais associados e estado geral."
+tontura,sensação de tontura|sensacao de tontura|vertigem|cabeça girando|cabeca girando,Tontura,Amarelo,3,"Tontura deve ser avaliada conforme intensidade, início e sinais associados."
+sincope,desmaio|desmaio breve|síncope|sincope|perda transitória de consciência|perda transitoria de consciencia,Síncope,Amarelo,3,Episódio de perda transitória de consciência necessita avaliação clínica.
+dor lombar,dor nas costas|dor na lombar|lombalgia|dor lombar moderada,Dor lombar,Amarelo,3,Dor lombar necessita avaliação conforme intensidade e sintomas associados.
+sangramento moderado,sangramento pequeno persistente|sangramento moderado|perda moderada de sangue,Sangramento moderado,Amarelo,3,"Sangramento necessita avaliação considerando quantidade, duração e sinais associados."
+vomitos persistentes,vômitos repetidos|vomitos repetidos|vomitando muito|vômito persistente|vomito persistente,Vômitos persistentes,Amarelo,3,Vômitos persistentes podem causar comprometimento clínico e necessitam avaliação.
+diarreia persistente,diarreia frequente|evacuações líquidas frequentes|evacuacoes liquidas frequentes|muitas evacuações|muitas evacuacoes,Diarreia persistente,Amarelo,3,Diarreia persistente requer avaliação do estado de hidratação e sintomas associados.
+alteracao neurologica,fraqueza de um lado|fraqueza em um lado do corpo|fala alterada|dificuldade para falar|formigamento súbito|formigamento subito,Alteração neurológica,Amarelo,3,Alteração neurológica exige avaliação rápida; a prioridade final depende do contexto e de outros sinais.
+dor no membro,dor no braço|dor no braco|dor na perna|dor no membro superior|dor no membro inferior,Dor em membro,Amarelo,3,Dor em membro necessita avaliação conforme intensidade e sinais associados.
+nausea persistente,náusea persistente|nausea persistente|enjoo persistente|sensação de enjoo persistente|sensacao de enjoo persistente,Náusea persistente,Amarelo,3,Náusea persistente necessita avaliação conforme sintomas associados e estado geral.
+dor leve,dor pequena|dor fraca|desconforto leve|dor de baixa intensidade,Dor leve,Verde,2,Dor leve em quadro estável pode aguardar avaliação dentro da categoria de menor urgência clínica.
+dor abdominal leve,dor de barriga leve|dor abdominal pequena|dor abdominal fraca|desconforto abdominal leve,Dor abdominal leve,Verde,2,Queixa abdominal leve sem sinais de gravidade descritos.
+cefaleia leve,dor de cabeça leve|dor de cabeca leve|cefaleia leve|dor de cabeça fraca|dor de cabeca fraca,Cefaleia leve,Verde,2,Cefaleia leve sem sinais de alarme descritos.
+tosse leve,tosse seca|tosse leve|tosse sem falta de ar|tosse sem dispneia,Tosse leve,Verde,2,Queixa respiratória leve sem sinais de gravidade descritos.
+resfriado,resfriado leve|coriza|nariz escorrendo|congestão nasal|congestao nasal,Resfriado,Verde,2,Quadro respiratório leve sem sinais de gravidade descritos.
+mal estar,mal-estar|indisposição|indisposicao|sensação de mal-estar|sensacao de mal-estar,Mal-estar geral,Verde,2,"Queixa inespecífica em quadro estável, sem sinais de gravidade descritos."
+nausea,náusea|nausea|enjoo|sensação de enjoo|sensacao de enjoo,Náusea,Verde,2,Sintoma inespecífico sem sinais de gravidade descritos.
+vomito isolado,vômito isolado|vomito isolado|um episódio de vômito|um episodio de vomito,Vômito isolado,Verde,2,Episódio isolado sem sinais de gravidade descritos.
+diarreia,evacuações líquidas|evacuacoes liquidas|fezes líquidas|fezes liquidas|diarreia leve,Diarreia,Verde,2,Quadro gastrointestinal sem sinais de gravidade descritos.
+dor muscular,dor no corpo|mialgia|dor muscular leve|dor nos músculos|dor nos musculos,Dor muscular,Verde,2,Queixa musculoesquelética leve sem sinais de gravidade descritos.
+dor no braco,dor no braço|dor no braco|dor muscular no braço|dor muscular no braco,Dor no braço,Verde,2,Queixa localizada sem sinais associados de gravidade descritos.
+queda baixa energia,queda da própria altura|queda da propria altura|queda de própria altura|queda de propria altura,Queda da própria altura,Verde,2,Trauma de baixa energia sem sinais de gravidade descritos.
+ardencia ao urinar,ardência ao urinar|ardencia ao urinar|dor ao urinar|disúria|disuria,Ardência ao urinar,Verde,2,Sintoma urinário sem sinais de instabilidade descritos.
+frequencia urinaria aumentada,urinar muitas vezes|vontade frequente de urinar|frequência urinária aumentada|frequencia urinaria aumentada,Aumento da frequência urinária,Verde,2,Sintoma urinário sem sinais de instabilidade descritos.
+dor muscular lombar leve,dor nas costas leve|dor lombar leve|dor na lombar leve|lombalgia leve,Dor lombar leve,Verde,2,Queixa musculoesquelética leve sem sinais de gravidade descritos.
+febre baixa,febre baixa|temperatura levemente elevada|temperatura pouco elevada,Febre baixa,Verde,2,"Febre baixa em quadro estável, sem sinais de gravidade descritos."
+renovacao de receita,renovação de receita|renovacao de receita|renovar receita|receita médica de rotina|receita medica de rotina,Renovação de receita,Azul,1,"Demanda não urgente e administrativa, quando não há queixa clínica aguda associada."
+pedido de exame,solicitação de exame|solicitacao de exame|pedir exame|pedido de exame de rotina,Pedido de exame simples,Azul,1,"Demanda não urgente e administrativa, quando não há queixa clínica aguda associada."
+resultado de exame,resultado de exame|ver resultado|buscar resultado|consulta de resultado,Resultado de exame,Azul,1,"Demanda não urgente e administrativa, quando não há queixa clínica aguda associada."
+informacao,informação|informacao|informações|informacoes|dúvida|duvida|orientação|orientacao,Consulta para informação,Azul,1,Demanda informativa sem sinais de urgência clínica descritos.
+atestado,solicitação de atestado|solicitacao de atestado|pedido de atestado|atestado de rotina,Demanda administrativa,Azul,1,Demanda administrativa sem sinais de urgência clínica descritos.
+queixa sem urgencia,queixa sem urgência|queixa sem urgencia|sem sintomas agudos|sem queixa aguda|demanda não urgente|demanda nao urgente,Queixa sem urgência clínica,Azul,1,Situação descrita como não urgente e sem sinais de alerta clínico.

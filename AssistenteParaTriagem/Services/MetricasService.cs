@@ -1,4 +1,5 @@
-﻿using AssistenteParaTriagem.Models;
+﻿using AssistenteParaTriagem.Data;
+using AssistenteParaTriagem.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssistenteParaTriagem.Services
@@ -32,8 +33,15 @@ namespace AssistenteParaTriagem.Services
             // Verde    = 3
             // Azul     = 4
             //
-            // Portanto, sistema > padrão-ouro significa
-            // que o sistema classificou com menor prioridade.
+            // Portanto:
+            // sistema > padrão-ouro = sistema classificou
+            // com menor prioridade.
+            //
+            // Exemplo:
+            // Padrão-ouro = Laranja (1)
+            // Sistema     = Amarelo (2)
+            //
+            // Isso caracteriza SUBTRIAGEM.
 
             return (int)sistema > (int)padraoOuro;
         }
@@ -46,6 +54,9 @@ namespace AssistenteParaTriagem.Services
             CorTriagem sistema,
             CorTriagem padraoOuro)
         {
+            // Sistema classificou com prioridade maior
+            // do que o padrão-ouro.
+
             return (int)sistema < (int)padraoOuro;
         }
 
@@ -55,27 +66,44 @@ namespace AssistenteParaTriagem.Services
 
         public async Task<ResultadoMetricas> CalcularAsync()
         {
-            var avaliacoes =
-                await _context.AvaliacoesCenarios
-                    .AsNoTracking()
-                    .ToListAsync();
+            // =====================================================
+            // IMPORTANTE:
+            // Utilizamos SOMENTE as avaliações geradas pela
+            // validação automática dos cenários simulados.
+            //
+            // Isso impede que avaliações antigas ou respostas
+            // de profissionais alterem os resultados do TCC.
+            // =====================================================
 
-            var questionarios =
-                await _context.RespostasQuestionarios
-                    .AsNoTracking()
-                    .ToListAsync();
+            var avaliacoes = await _context.AvaliacoesCenarios
+                .AsNoTracking()
+                .Where(a =>
+                    a.NomeProfissional ==
+                    ValidacaoAutomaticaService.Identificador)
+                .OrderBy(a => a.CenarioClinicoId)
+                .ToListAsync();
 
-            var cenarios =
-                await _context.CenariosClinicos
-                    .AsNoTracking()
-                    .OrderBy(c => c.Id)
-                    .ToListAsync();
+            // =====================================================
+            // CARREGAR CENÁRIOS
+            // =====================================================
+
+            var cenarios = await _context.CenariosClinicos
+                .AsNoTracking()
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+
+            // =====================================================
+            // VALIDAÇÃO ESPECÍFICA DO PLN
+            // =====================================================
 
             var validacaoPln =
                 _validacaoPln.Calcular(cenarios);
 
-            var resultado =
-    new ResultadoMetricas();
+            var resultado = new ResultadoMetricas();
+
+            // =====================================================
+            // RESULTADOS DO PLN
+            // =====================================================
 
             resultado.PlnTotalCenarios =
                 validacaoPln.TotalCenarios;
@@ -98,59 +126,42 @@ namespace AssistenteParaTriagem.Services
             resultado.PlnF1 =
                 validacaoPln.F1;
 
-        
-
-            // -----------------------------------------------------
-            // Nenhuma avaliação
-            // -----------------------------------------------------
+            // =====================================================
+            // NENHUMA AVALIAÇÃO DE CLASSIFICAÇÃO
+            // =====================================================
 
             if (!avaliacoes.Any())
+            {
                 return resultado;
+            }
 
-            // -----------------------------------------------------
-            // TOTAL
-            // -----------------------------------------------------
+            // =====================================================
+            // TOTAL DE CASOS
+            // =====================================================
 
             resultado.TotalCasos =
                 avaliacoes.Count;
 
-            // -----------------------------------------------------
+            // =====================================================
             // ACERTOS DO SISTEMA
-            // -----------------------------------------------------
+            // =====================================================
 
             resultado.AcertosSistema =
                 avaliacoes.Count(a =>
                     a.SistemaAcertou);
 
-            // -----------------------------------------------------
-            // ACERTOS DOS PROFISSIONAIS
-            // -----------------------------------------------------
-
-            resultado.AcertosProfissionais =
-                avaliacoes.Count(a =>
-                    a.ProfissionalAcertou);
-
-            // -----------------------------------------------------
+            // =====================================================
             // ACURÁCIA DO SISTEMA
-            // -----------------------------------------------------
+            // =====================================================
 
             resultado.AcuraciaSistema =
                 Percentual(
                     resultado.AcertosSistema,
                     resultado.TotalCasos);
 
-            // -----------------------------------------------------
-            // ACURÁCIA DOS PROFISSIONAIS
-            // -----------------------------------------------------
-
-            resultado.AcuraciaProfissionais =
-                Percentual(
-                    resultado.AcertosProfissionais,
-                    resultado.TotalCasos);
-
-            // -----------------------------------------------------
+            // =====================================================
             // SUBTRIAGEM
-            // -----------------------------------------------------
+            // =====================================================
 
             resultado.UnderTriage =
                 Percentual(
@@ -158,9 +169,9 @@ namespace AssistenteParaTriagem.Services
                         a.Subtriagem),
                     resultado.TotalCasos);
 
-            // -----------------------------------------------------
+            // =====================================================
             // SOBRETRIAGEM
-            // -----------------------------------------------------
+            // =====================================================
 
             resultado.OverTriage =
                 Percentual(
@@ -168,59 +179,21 @@ namespace AssistenteParaTriagem.Services
                         a.Supertriagem),
                     resultado.TotalCasos);
 
-            // -----------------------------------------------------
+            // =====================================================
             // PRECISÃO / RECALL / F1
-            // -----------------------------------------------------
+            // =====================================================
 
             CalcularMetricasMulticlasse(
                 avaliacoes,
                 resultado);
 
-            // -----------------------------------------------------
-            // KAPPA
-            // -----------------------------------------------------
+            // =====================================================
+            // KAPPA DE COHEN
+            // =====================================================
 
             resultado.Kappa =
                 CalcularKappa(
                     avaliacoes);
-
-            // -----------------------------------------------------
-            // CONCORDÂNCIA PROFISSIONAL × SISTEMA
-            // -----------------------------------------------------
-
-            resultado.ConcordanciaProfissionalSistema =
-                Percentual(
-                    avaliacoes.Count(a =>
-                        a.CorProfissional ==
-                        a.CorSistema),
-                    resultado.TotalCasos);
-
-            // -----------------------------------------------------
-            // QUESTIONÁRIO DE USABILIDADE
-            // -----------------------------------------------------
-
-            if (questionarios.Any())
-            {
-                resultado.MediaFacilidade =
-                    questionarios.Average(
-                        q => q.FacilidadeUso);
-
-                resultado.MediaClareza =
-                    questionarios.Average(
-                        q => q.ClarezaRecomendacao);
-
-                resultado.MediaUtilidade =
-                    questionarios.Average(
-                        q => q.Utilidade);
-
-                resultado.MediaConfianca =
-                    questionarios.Average(
-                        q => q.Confianca);
-
-                resultado.MediaRecomendacao =
-                    questionarios.Average(
-                        q => q.RecomendariaUso);
-            }
 
             return resultado;
         }
@@ -273,22 +246,40 @@ namespace AssistenteParaTriagem.Services
                     bool padraoEhClasse =
                         avaliacao.CorPadraoOuro == classe;
 
+                    // -------------------------------------------------
+                    // VERDADEIRO POSITIVO
+                    // -------------------------------------------------
+
                     if (sistemaEhClasse &&
                         padraoEhClasse)
                     {
                         verdadeirosPositivos++;
                     }
+
+                    // -------------------------------------------------
+                    // FALSO POSITIVO
+                    // -------------------------------------------------
+
                     else if (sistemaEhClasse &&
                              !padraoEhClasse)
                     {
                         falsosPositivos++;
                     }
+
+                    // -------------------------------------------------
+                    // FALSO NEGATIVO
+                    // -------------------------------------------------
+
                     else if (!sistemaEhClasse &&
                              padraoEhClasse)
                     {
                         falsosNegativos++;
                     }
                 }
+
+                // =====================================================
+                // PRECISÃO
+                // =====================================================
 
                 double precisao =
                     verdadeirosPositivos +
@@ -298,6 +289,10 @@ namespace AssistenteParaTriagem.Services
                           (verdadeirosPositivos +
                            falsosPositivos);
 
+                // =====================================================
+                // RECALL
+                // =====================================================
+
                 double recall =
                     verdadeirosPositivos +
                     falsosNegativos == 0
@@ -305,6 +300,10 @@ namespace AssistenteParaTriagem.Services
                         : verdadeirosPositivos * 100.0 /
                           (verdadeirosPositivos +
                            falsosNegativos);
+
+                // =====================================================
+                // F1
+                // =====================================================
 
                 double f1 = 0;
 
@@ -322,18 +321,24 @@ namespace AssistenteParaTriagem.Services
                 f1Classes.Add(f1);
             }
 
-            // -----------------------------------------------------
-            // Macro média
-            // -----------------------------------------------------
+            // =========================================================
+            // MACRO MÉDIA
+            // =========================================================
 
             resultado.Precisao =
-                precisaoClasses.Average();
+                precisaoClasses.Any()
+                    ? precisaoClasses.Average()
+                    : 0;
 
             resultado.Recall =
-                recallClasses.Average();
+                recallClasses.Any()
+                    ? recallClasses.Average()
+                    : 0;
 
             resultado.F1 =
-                f1Classes.Average();
+                f1Classes.Any()
+                    ? f1Classes.Average()
+                    : 0;
         }
 
         // =========================================================
@@ -349,9 +354,9 @@ namespace AssistenteParaTriagem.Services
             int total =
                 avaliacoes.Count;
 
-            // -----------------------------------------------------
-            // Concordância observada
-            // -----------------------------------------------------
+            // =====================================================
+            // CONCORDÂNCIA OBSERVADA
+            // =====================================================
 
             int concordantes =
                 avaliacoes.Count(a =>
@@ -362,9 +367,9 @@ namespace AssistenteParaTriagem.Services
                 concordantes /
                 (double)total;
 
-            // -----------------------------------------------------
-            // Distribuição do sistema
-            // -----------------------------------------------------
+            // =====================================================
+            // DISTRIBUIÇÃO DAS CLASSES
+            // =====================================================
 
             var classes =
                 Enum.GetValues<CorTriagem>();
@@ -394,9 +399,9 @@ namespace AssistenteParaTriagem.Services
                     proporcaoPadrao;
             }
 
-            // -----------------------------------------------------
-            // Evita divisão por zero
-            // -----------------------------------------------------
+            // =====================================================
+            // EVITA DIVISÃO POR ZERO
+            // =====================================================
 
             if (Math.Abs(
                     1 -
@@ -408,9 +413,9 @@ namespace AssistenteParaTriagem.Services
                     : 0;
             }
 
-            // -----------------------------------------------------
-            // Fórmula do Kappa
-            // -----------------------------------------------------
+            // =====================================================
+            // FÓRMULA DO KAPPA
+            // =====================================================
 
             return
                 (concordanciaObservada -

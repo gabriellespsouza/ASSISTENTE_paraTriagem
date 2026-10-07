@@ -12,7 +12,7 @@ namespace AssistenteParaTriagem.Models
         {
         }
 
-        public DbSet<AvaliacaoTriagem> Avaliacoes { get; set; }
+
 
         public DbSet<AuditLogs> AuditLogs { get; set; }
 
@@ -20,39 +20,13 @@ namespace AssistenteParaTriagem.Models
 
         public DbSet<AvaliacaoCenario> AvaliacoesCenarios { get; set; }
 
-        public DbSet<RespostaQuestionario> RespostasQuestionarios { get; set; }
+    
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // ==========================================
-            // AVALIAÇÃO DE TRIAGEM
-            // ==========================================
-
-            builder.Entity<AvaliacaoTriagem>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.NomeProfissional)
-                    .IsRequired()
-                    .HasMaxLength(150);
-
-                entity.Property(e => e.Queixa)
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.Sintomas)
-                    .HasMaxLength(2000);
-
-                entity.Property(e => e.Discriminadores)
-                    .HasMaxLength(3000);
-
-                entity.Property(e => e.RegrasAplicadas)
-                    .HasMaxLength(2000);
-
-                entity.Property(e => e.Justificativa)
-                    .HasMaxLength(2000);
-            });
+            
 
             // ==========================================
             // LOG DE AUDITORIA
@@ -149,27 +123,7 @@ namespace AssistenteParaTriagem.Models
                     .HasMaxLength(2000);
             });
 
-            // ==========================================
-            // QUESTIONÁRIO
-            // ==========================================
-
-            builder.Entity<RespostaQuestionario>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.NomeProfissional)
-                    .IsRequired()
-                    .HasMaxLength(150);
-
-                entity.Property(e => e.PontosPositivos)
-                    .HasMaxLength(2000);
-
-                entity.Property(e => e.Dificuldades)
-                    .HasMaxLength(2000);
-
-                entity.Property(e => e.Sugestoes)
-                    .HasMaxLength(2000);
-            });
+            
         }
     }
 }

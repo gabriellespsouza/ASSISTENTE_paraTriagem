@@ -3,6 +3,7 @@ using System;
 using AssistenteParaTriagem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssistenteParaTriagem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261004220515_RemoverSobrasProfissionais")]
+    partial class RemoverSobrasProfissionais
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.29");
@@ -156,6 +159,74 @@ namespace AssistenteParaTriagem.Migrations
                         .IsUnique();
 
                     b.ToTable("AvaliacoesCenarios");
+                });
+
+            modelBuilder.Entity("AssistenteParaTriagem.Models.AvaliacaoTriagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CorRisco")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DataHora")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminadores")
+                        .IsRequired()
+                        .HasMaxLength(3000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("FrequenciaCardiaca")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FrequenciaRespiratoria")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Justificativa")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NomeProfissional")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PacienteInconsciente")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("PressaoSistolica")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Queixa")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RegrasAplicadas")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Saturacao")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Sintomas")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Temperatura")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("TempoMaximo")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Avaliacoes");
                 });
 
             modelBuilder.Entity("AssistenteParaTriagem.Models.CenarioClinico", b =>

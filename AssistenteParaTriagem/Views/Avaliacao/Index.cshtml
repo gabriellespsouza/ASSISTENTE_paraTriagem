@@ -1,84 +1,67 @@
 ﻿@model IEnumerable<AssistenteParaTriagem.Models.CenarioClinico>
 
 @{
-    ViewData["Title"] = "Avaliação do Protótipo";
+    ViewData["Title"] = "Validação Simulada";
 }
 
 <style>
-
-    /* =========================
-           FUNDO
-           ========================= */
-
     body {
         background: #eef3f8;
     }
 
-
-    /* =========================
-           CONTAINER
-           ========================= */
-
-    .avaliacao-shell {
+    .validacao-shell {
         max-width: 1100px;
         margin: 0 auto;
+        animation: validacaoFade .5s ease;
     }
 
-
     /* =========================
-           CABEÇALHO
-           ========================= */
+       CABEÇALHO
+       ========================= */
 
-    .avaliacao-header {
+    .validacao-header {
         border-radius: 26px 26px 0 0;
-        background: linear-gradient( 135deg, #0d6efd 0%, #0a58ca 60%, #083d8f 100% );
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 60%, #083d8f 100%);
         padding: 42px 44px;
         position: relative;
         overflow: hidden;
         color: white;
         text-align: center;
-        box-shadow: 0 18px 45px rgba(13,38,76,.12);
+        box-shadow: 0 18px 45px rgba(13, 38, 76, .12);
     }
 
-        /* círculo decorativo */
+    .validacao-header::before {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .08);
+        top: -140px;
+        right: -80px;
+    }
 
-        .avaliacao-header::before {
-            content: "";
-            position: absolute;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: rgba(255,255,255,.08);
-            top: -140px;
-            right: -80px;
-        }
+    .validacao-header::after {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .05);
+        bottom: -100px;
+        left: -50px;
+    }
 
-        .avaliacao-header::after {
-            content: "";
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: rgba(255,255,255,.05);
-            bottom: -100px;
-            left: -50px;
-        }
-
-    .avaliacao-header-content {
+    .validacao-header-content {
         position: relative;
         z-index: 2;
     }
 
-
-    /* =========================
-           ÍCONE DO CABEÇALHO
-           ========================= */
-
-    .avaliacao-header-icon {
+    .validacao-header-icon {
         width: 64px;
         height: 64px;
         border-radius: 17px;
-        background: rgba(255,255,255,.18);
+        background: rgba(255, 255, 255, .18);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -86,41 +69,34 @@
         margin: 0 auto 16px;
     }
 
-
-    /* =========================
-           TÍTULO
-           ========================= */
-
-    .avaliacao-header h1 {
+    .validacao-header h1 {
         font-size: 2rem;
         font-weight: 800;
         margin-bottom: 8px;
     }
 
-    .avaliacao-header p {
+    .validacao-header p {
         margin: 0;
         opacity: .9;
         font-size: 1rem;
     }
 
-
     /* =========================
-           CONTEÚDO
-           ========================= */
+       CONTEÚDO
+       ========================= */
 
-    .avaliacao-content {
+    .validacao-content {
         background: white;
         border-radius: 0 0 26px 26px;
         padding: 42px;
-        box-shadow: 0 18px 45px rgba(13,38,76,.12);
+        box-shadow: 0 18px 45px rgba(13, 38, 76, .12);
     }
 
-
     /* =========================
-           ALERTA
-           ========================= */
+       ALERTA
+       ========================= */
 
-    .avaliacao-alert {
+    .validacao-alert {
         border-radius: 16px;
         background: #eef6ff;
         border: 1px solid #cfe2ff;
@@ -128,11 +104,11 @@
         display: flex;
         align-items: flex-start;
         gap: 14px;
-        margin-bottom: 35px;
+        margin-bottom: 32px;
         color: #34495e;
     }
 
-    .avaliacao-alert-icon {
+    .validacao-alert-icon {
         width: 40px;
         height: 40px;
         flex-shrink: 0;
@@ -145,47 +121,123 @@
         font-size: 18px;
     }
 
-    .avaliacao-alert strong {
+    .validacao-alert strong {
         display: block;
         color: #0d6efd;
         margin-bottom: 4px;
     }
 
-    .avaliacao-alert p {
+    .validacao-alert p {
         margin: 0;
         line-height: 1.6;
     }
 
-
     /* =========================
-           TÍTULO DA LISTA
-           ========================= */
+       TÍTULOS DAS SEÇÕES
+       ========================= */
 
-    .cenario-section-title {
+    .section-title {
         display: flex;
         align-items: center;
         gap: 12px;
         font-size: 1.2rem;
         font-weight: 800;
         color: #22324a;
-        margin-bottom: 22px;
+        margin-bottom: 20px;
     }
 
-    .cenario-section-icon {
+    .section-icon {
         width: 38px;
         height: 38px;
         border-radius: 10px;
-        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
+    /* =========================
+       CARD COMO FUNCIONA
+       ========================= */
+
+    .funcionamento-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        padding: 26px;
+        margin-bottom: 32px;
+    }
+
+    .funcionamento-list {
+        margin: 0;
+        padding-left: 25px;
+        color: #657386;
+    }
+
+    .funcionamento-list li {
+        margin-bottom: 12px;
+        line-height: 1.6;
+        padding-left: 5px;
+    }
+
+    .funcionamento-list li:last-child {
+        margin-bottom: 0;
+    }
 
     /* =========================
-           CARD DO CENÁRIO
-           ========================= */
+       BLOCO DE EXECUÇÃO
+       ========================= */
+
+    .execucao-card {
+        border: 1px solid #dce7f7;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f8fbff, #eef6ff);
+        padding: 25px;
+        margin-bottom: 35px;
+    }
+
+    .execucao-card h4 {
+        color: #22324a;
+    }
+
+    .execucao-card p {
+        color: #657386;
+    }
+
+    .contador-cenarios {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 5px;
+        color: #657386;
+    }
+
+    .contador-cenarios i {
+        color: #0d6efd;
+    }
+
+    .btn-validacao {
+        border: none;
+        border-radius: 14px;
+        padding: 13px 24px;
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+        font-weight: 700;
+        transition: .25s;
+        box-shadow: 0 7px 18px rgba(13, 110, 253, .20);
+        white-space: nowrap;
+    }
+
+    .btn-validacao:hover {
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 10px 24px rgba(13, 110, 253, .30);
+    }
+
+    /* =========================
+       CARDS DOS CENÁRIOS
+       ========================= */
 
     .cenario-card {
         border: 1px solid #eef1f6;
@@ -196,147 +248,103 @@
         overflow: hidden;
     }
 
-        .cenario-card:hover {
-            transform: translateY(-4px);
-            border-color: #cfe0ff;
-            box-shadow: 0 12px 28px rgba(13,38,76,.10);
-        }
-
-
-    /* =========================
-           NÚMERO DO CENÁRIO
-           ========================= */
-
-    .cenario-number {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 17px;
-        margin-bottom: 16px;
+    .cenario-card:hover {
+        transform: translateY(-4px);
+        border-color: #cfe0ff;
+        box-shadow: 0 12px 28px rgba(13, 38, 76, .10);
     }
 
+    .cenario-card-body {
+        padding: 24px;
+    }
 
-    /* =========================
-           TÍTULO DO CENÁRIO
-           ========================= */
+    .cenario-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        border-radius: 10px;
+        padding: 7px 11px;
+        font-size: .82rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
 
     .cenario-title {
         font-size: 1.15rem;
         font-weight: 800;
         color: #22324a;
-        margin-bottom: 12px;
+        margin-bottom: 18px;
     }
 
-
-    /* =========================
-           QUEIXA
-           ========================= */
-
-    .cenario-queixa {
+    .info-item {
+        margin-bottom: 15px;
         color: #657386;
-        line-height: 1.6;
-        min-height: 65px;
-        margin-bottom: 20px;
+        line-height: 1.55;
     }
 
+    .info-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .info-label {
+        display: block;
+        font-size: .85rem;
+        font-weight: 800;
+        color: #34495e;
+        margin-bottom: 4px;
+    }
+
+    .info-text {
+        font-size: .95rem;
+        word-break: break-word;
+    }
 
     /* =========================
-           BOTÃO
-           ========================= */
+       PADRÃO-OURO
+       ========================= */
 
-    .btn-classificar {
-        width: 100%;
-        border: none;
-        border-radius: 14px;
-        padding: 12px 20px;
-        background: linear-gradient( 135deg, #0d6efd, #0a58ca );
-        color: white;
+    .padrao-ouro {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 13px;
+        border-radius: 10px;
         font-weight: 700;
-        transition: .25s;
-        box-shadow: 0 7px 18px rgba(13,110,253,.20);
+        font-size: .85rem;
     }
 
-        .btn-classificar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(13,110,253,.30);
-            color: white;
-        }
+    .cor-vermelho {
+        background: #f8d7da;
+        color: #842029;
+    }
 
+    .cor-laranja {
+        background: #ffe5d0;
+        color: #9a3412;
+    }
+
+    .cor-amarelo {
+        background: #fff3cd;
+        color: #664d03;
+    }
+
+    .cor-verde {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .cor-azul {
+        background: #cfe2ff;
+        color: #084298;
+    }
 
     /* =========================
-           ÁREA DE AÇÕES
-           ========================= */
+       ANIMAÇÃO
+       ========================= */
 
-    .avaliacao-actions {
-        margin-top: 40px;
-        padding-top: 30px;
-        border-top: 1px solid #eef1f6;
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-
-    /* =========================
-           BOTÃO QUESTIONÁRIO
-           ========================= */
-
-    .btn-questionario {
-        border-radius: 14px;
-        padding: 13px 25px;
-        font-weight: 700;
-        background: linear-gradient( 135deg, #198754, #126b40 );
-        border: none;
-        color: white;
-        transition: .25s;
-        box-shadow: 0 7px 18px rgba(25,135,84,.20);
-    }
-
-        .btn-questionario:hover {
-            transform: translateY(-2px);
-            color: white;
-            box-shadow: 0 10px 24px rgba(25,135,84,.30);
-        }
-
-
-    /* =========================
-           BOTÃO MÉTRICAS
-           ========================= */
-
-    .btn-metricas {
-        border-radius: 14px;
-        padding: 13px 25px;
-        font-weight: 700;
-        border: 1px solid #0d6efd;
-        color: #0d6efd;
-        background: white;
-        transition: .25s;
-    }
-
-        .btn-metricas:hover {
-            transform: translateY(-2px);
-            background: #0d6efd;
-            color: white;
-        }
-
-
-    /* =========================
-           ANIMAÇÃO
-           ========================= */
-
-    .avaliacao-shell {
-        animation: avaliacaoFade .5s ease;
-    }
-
-    @@keyframes avaliacaoFade {
-
+    @@keyframes validacaoFade {
         from {
             opacity: 0;
             transform: translateY(20px);
@@ -348,254 +356,294 @@
         }
     }
 
-
     /* =========================
-           RESPONSIVO
-           ========================= */
+       RESPONSIVO
+       ========================= */
 
     @@media (max-width: 768px) {
 
-        .avaliacao-header {
+        .validacao-header {
             padding: 35px 20px;
         }
 
-            .avaliacao-header h1 {
-                font-size: 1.6rem;
-            }
+        .validacao-header h1 {
+            font-size: 1.6rem;
+        }
 
-        .avaliacao-content {
+        .validacao-content {
             padding: 28px 20px;
         }
 
-        .avaliacao-actions {
+        .execucao-card .d-flex {
             flex-direction: column;
+            align-items: stretch !important;
+            gap: 20px;
         }
 
-        .btn-questionario,
-        .btn-metricas {
+        .btn-validacao {
             width: 100%;
         }
+
+        .validacao-alert {
+            flex-direction: column;
+        }
     }
-
 </style>
-
 
 <div class="container py-5">
 
-    <div class="avaliacao-shell">
+    <div class="validacao-shell">
 
+        <!-- CABEÇALHO -->
+        <div class="validacao-header">
 
-        <!-- =========================
-             CABEÇALHO
-             ========================= -->
+            <div class="validacao-header-content">
 
-        <div class="avaliacao-header">
-
-            <div class="avaliacao-header-content">
-
-                <div class="avaliacao-header-icon">
-
-                    <i class="bi bi-clipboard2-pulse-fill"></i>
-
+                <div class="validacao-header-icon">
+                    <i class="bi bi-shield-check"></i>
                 </div>
 
                 <h1>
-                    Avaliação do Protótipo
+                    Validação Simulada do Protótipo
                 </h1>
 
                 <p>
-                    Avalie os cenários clínicos e compare sua decisão
-                    com a recomendação do assistente.
+                    Avaliação automática do sistema utilizando cenários clínicos simulados.
                 </p>
 
             </div>
 
         </div>
 
+        <!-- CONTEÚDO -->
+        <div class="validacao-content">
 
-        <!-- =========================
-             CONTEÚDO
-             ========================= -->
+            <!-- AVISO -->
+            <div class="validacao-alert">
 
-        <div class="avaliacao-content">
-
-
-            <!-- =========================
-                 EXPLICAÇÃO
-                 ========================= -->
-
-            <div class="avaliacao-alert">
-
-                <div class="avaliacao-alert-icon">
-
+                <div class="validacao-alert-icon">
                     <i class="bi bi-info-circle-fill"></i>
-
                 </div>
 
                 <div>
 
-                    <strong>
-                        Como funciona?
-                    </strong>
+                    <strong>Importante</strong>
 
                     <p>
-                        Analise cada cenário clínico e informe a
-                        classificação de risco que você considera
-                        adequada. Em seguida, o sistema realizará
-                        sua própria classificação e permitirá
-                        comparar as duas decisões com o padrão
-                        de referência.
+                        Esta validação não utiliza respostas de profissionais.
+                        Os resultados são comparados automaticamente com o
+                        padrão-ouro definido para cada cenário.
                     </p>
 
                 </div>
 
             </div>
 
+            <!-- COMO FUNCIONA -->
+            <div class="section-title">
 
-            <!-- =========================
-                 TÍTULO DOS CENÁRIOS
-                 ========================= -->
-
-            @if (TempData["Aviso"] is string aviso)
-            {
-                <div class="alert alert-warning">
-                    @aviso
-                </div>
-            }
-
-            @if (TempData["Mensagem"] is string mensagem)
-            {
-                <div class="alert alert-success">
-                    @mensagem
-                </div>
-            }
-
-            <div class="cenario-section-title">
-
-                <span class="cenario-section-icon">
-
-                    <i class="bi bi-clipboard2-check-fill"></i>
-
+                <span class="section-icon">
+                    <i class="bi bi-diagram-3-fill"></i>
                 </span>
 
-                Cenários Clínicos
+                Como funciona?
 
             </div>
 
+            <div class="funcionamento-card">
 
-            <!-- =========================
-                 LISTA DE CENÁRIOS
-                 ========================= -->
+                <ol class="funcionamento-list">
+
+                    <li>
+                        O sistema carrega os cenários clínicos simulados.
+                    </li>
+
+                    <li>
+                        O PLN identifica os discriminadores presentes no texto.
+                    </li>
+
+                    <li>
+                        Os sinais vitais são enviados para as regras de classificação.
+                    </li>
+
+                    <li>
+                        O sistema determina a cor da triagem.
+                    </li>
+
+                    <li>
+                        O resultado é comparado com o padrão-ouro.
+                    </li>
+
+                    <li>
+                        As métricas de desempenho são calculadas.
+                    </li>
+
+                </ol>
+
+            </div>
+
+            <!-- EXECUÇÃO -->
+            <div class="section-title">
+
+                <span class="section-icon">
+                    <i class="bi bi-play-circle-fill"></i>
+                </span>
+
+                Executar validação
+
+            </div>
+
+            <div class="execucao-card">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h4 class="fw-bold mb-2">
+                            Cenários disponíveis
+                        </h4>
+
+                        <div class="contador-cenarios">
+
+                            <i class="bi bi-clipboard2-pulse-fill"></i>
+
+                            <span>
+                                @Model.Count() cenários clínicos simulados.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <form asp-action="ExecutarValidacaoAutomatica"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-validacao">
+
+                            <i class="bi bi-play-fill me-2"></i>
+
+                            Executar validação
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- CENÁRIOS -->
+            <div class="section-title">
+
+                <span class="section-icon">
+                    <i class="bi bi-clipboard2-check-fill"></i>
+                </span>
+
+                Cenários clínicos
+
+            </div>
 
             <div class="row g-4">
 
-                @{
-                    int numeroCenario = 1;
-
-                    var respondidos =
-                        ViewBag.Respondidos as HashSet<int>
-                        ?? new HashSet<int>();
-                }
-
                 @foreach (var cenario in Model)
                 {
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-lg-4">
 
                         <div class="cenario-card">
 
-                            <div class="card-body p-4">
+                            <div class="cenario-card-body">
 
+                                <span class="cenario-badge">
 
-                                <!-- Número -->
+                                    <i class="bi bi-hash"></i>
 
-                                <div class="cenario-number">
+                                    Cenário @cenario.Id
 
-                                    @numeroCenario
+                                </span>
+
+                                <h5 class="cenario-title">
+                                    @cenario.Titulo
+                                </h5>
+
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        <i class="bi bi-chat-left-text me-1"></i>
+                                        Queixa
+                                    </span>
+
+                                    <div class="info-text">
+                                        @cenario.QueixaPrincipal
+                                    </div>
 
                                 </div>
 
+                                <div class="info-item">
 
-                                <!-- Título -->
+                                    <span class="info-label">
+                                        <i class="bi bi-activity me-1"></i>
+                                        Sintomas
+                                    </span>
 
-                                <h4 class="cenario-title">
+                                    <div class="info-text">
+                                        @cenario.Sintomas
+                                    </div>
 
-                                    @cenario.Titulo
+                                </div>
 
-                                </h4>
+                                <div class="info-item">
 
+                                    <span class="info-label">
+                                        <i class="bi bi-search me-1"></i>
+                                        Discriminadores esperados
+                                    </span>
 
-                                <!-- Queixa -->
+                                    <div class="info-text">
+                                        @cenario.DiscriminadoresEsperados
+                                    </div>
 
-                                <p class="cenario-queixa">
+                                </div>
 
-                                    @cenario.QueixaPrincipal
+                                <div class="info-item mb-0">
 
-                                </p>
+                                    <span class="info-label">
+                                        <i class="bi bi-award me-1"></i>
+                                        Padrão-ouro
+                                    </span>
 
+                                    @{
+                                        var classePadraoOuro =
+                                            cenario.CorPadraoOuro == AssistenteParaTriagem.Models.CorTriagem.Vermelho
+                                                ? "cor-vermelho"
+                                                : cenario.CorPadraoOuro == AssistenteParaTriagem.Models.CorTriagem.Laranja
+                                                    ? "cor-laranja"
+                                                    : cenario.CorPadraoOuro == AssistenteParaTriagem.Models.CorTriagem.Amarelo
+                                                        ? "cor-amarelo"
+                                                        : cenario.CorPadraoOuro == AssistenteParaTriagem.Models.CorTriagem.Verde
+                                                            ? "cor-verde"
+                                                            : "cor-azul";
+                                    }
 
-                                <!-- Botão -->
+                                    <span class="padrao-ouro @classePadraoOuro">
 
-                                @if (respondidos.Contains(cenario.Id))
-                                {
-                                    <span class="btn btn-classificar disabled"
-                                          style="background:#6c757d; box-shadow:none;"
-                                          aria-disabled="true">
+                                        <i class="bi bi-circle-fill"
+                                           style="font-size: 8px;"></i>
 
-                                        <i class="bi bi-check-circle-fill me-2"></i>
-
-                                        Cenário já respondido
+                                        @cenario.CorPadraoOuro
 
                                     </span>
-                                }
-                                else
-                                {
-                                    <a asp-action="Responder"
-                                       asp-route-id="@cenario.Id"
-                                       class="btn btn-classificar">
 
-                                        <i class="bi bi-clipboard-check me-2"></i>
-
-                                        Classificar cenário
-
-                                    </a>
-                                }
+                                </div>
 
                             </div>
 
                         </div>
 
                     </div>
-
-                    numeroCenario++;
                 }
-
-            </div>
-
-
-            <!-- =========================
-                 AÇÕES
-                 ========================= -->
-
-            <div class="avaliacao-actions">
-
-                <a asp-action="Questionario"
-                   class="btn btn-questionario">
-
-                    <i class="bi bi-pencil-square me-2"></i>
-
-                    Responder questionário
-
-                </a>
-
-
-                <a asp-action="Metricas"
-                   class="btn btn-metricas">
-
-                    <i class="bi bi-bar-chart-fill me-2"></i>
-
-                    Ver resultados
-
-                </a>
 
             </div>
 
@@ -604,3 +652,4 @@
     </div>
 
 </div>
+```

@@ -13,17 +13,20 @@ namespace AssistenteParaTriagem.Controllers
         private readonly DatasetManchesterService _dataset;
         private readonly PlnService _pln;
         private readonly ManchesterRulesService _rules;
+        private readonly AnonimizadorService _anon;
 
         public TriagemController(
             ApplicationDbContext context,
             DatasetManchesterService dataset,
             PlnService pln,
-            ManchesterRulesService rules)
+            ManchesterRulesService rules,
+            AnonimizadorService anon)
         {
             _context = context;
             _dataset = dataset;
             _pln = pln;
             _rules = rules;
+            _anon = anon;
         }
 
         [HttpGet]
@@ -61,12 +64,12 @@ namespace AssistenteParaTriagem.Controllers
             // IDENTIFICAÇÃO DO USUÁRIO
             // ==========================================
 
+            // Código anônimo (ex.: P-7F3A2C): o e-mail não é gravado
             var userId =
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier);
+                _anon.CodigoDoUsuario(User);
 
             var nomeProfissional =
-                User.Identity?.Name ?? "Usuário";
+                userId;
 
             // ==========================================
             // PROCESSAMENTO DO TEXTO
@@ -132,60 +135,7 @@ namespace AssistenteParaTriagem.Controllers
                     ", ",
                     resultado.RegrasAplicadas);
 
-            // ==========================================
-            // REGISTRO DA TRIAGEM
-            // ==========================================
-
-            var avaliacao =
-                new AvaliacaoTriagem
-                {
-                    NomeProfissional =
-                        nomeProfissional,
-
-                    Queixa =
-                        queixa,
-
-                    Sintomas =
-                        sintomas ?? string.Empty,
-
-                    FrequenciaCardiaca =
-                        fc,
-
-                    FrequenciaRespiratoria =
-                        fr,
-
-                    PressaoSistolica =
-                        pas,
-
-                    Saturacao =
-                        spo2,
-
-                    Temperatura =
-                        temperatura,
-
-                    PacienteInconsciente =
-                        pacienteInconsciente,
-
-                    Discriminadores =
-                        discriminadoresTexto,
-
-                    RegrasAplicadas =
-                        regrasTexto,
-
-                    CorRisco =
-                        resultado.Cor,
-
-                    TempoMaximo =
-                        resultado.TempoMaximo,
-
-                    Justificativa =
-                        resultado.Justificativa,
-
-                    DataHora =
-                        DateTime.Now
-                };
-
-            _context.Avaliacoes.Add(avaliacao);
+           
 
             // ==========================================
             // LOG DE AUDITORIA

@@ -15,8 +15,7 @@ namespace AssistenteParaTriagem.Models
         [StringLength(150)]
         public string NomeProfissional { get; set; } = string.Empty;
 
-        [Required]
-        public CorTriagem CorProfissional { get; set; }
+      
 
         [Required]
         public CorTriagem CorSistema { get; set; }
@@ -26,7 +25,7 @@ namespace AssistenteParaTriagem.Models
 
         public bool SistemaAcertou { get; set; }
 
-        public bool ProfissionalAcertou { get; set; }
+     
 
         public bool Subtriagem { get; set; }
 

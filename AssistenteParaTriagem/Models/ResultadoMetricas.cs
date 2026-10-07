@@ -6,11 +6,7 @@
 
         public int AcertosSistema { get; set; }
 
-        public int AcertosProfissionais { get; set; }
-
         public double AcuraciaSistema { get; set; }
-
-        public double AcuraciaProfissionais { get; set; }
 
         public double Precisao { get; set; }
 
@@ -23,18 +19,6 @@
         public double UnderTriage { get; set; }
 
         public double OverTriage { get; set; }
-
-        public double MediaFacilidade { get; set; }
-
-        public double MediaClareza { get; set; }
-
-        public double MediaUtilidade { get; set; }
-
-        public double MediaConfianca { get; set; }
-
-        public double MediaRecomendacao { get; set; }
-
-        public double ConcordanciaProfissionalSistema { get; set; }
 
         public int PlnTotalCenarios { get; set; }
 

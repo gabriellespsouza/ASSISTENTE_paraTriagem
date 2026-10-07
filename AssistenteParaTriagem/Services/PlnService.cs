@@ -20,6 +20,28 @@ namespace AssistenteParaTriagem.Services
             "ausente"
         };
 
+        // Palavras que ENCERRAM o alcance de uma negação. "e", "ou" e "nem"
+        // NÃO estão aqui de propósito: elas continuam a negação
+        // ("sem sinais de choque ou alteração da consciência" nega os dois).
+        // A pontuação (vírgula, ponto, ponto e vírgula, dois pontos) também
+        // encerra o alcance e é tratada em NormalizarParaNegacao.
+        // Escolha conservadora: ao duvidar, o termo NÃO é considerado negado,
+        // pois negar um sintoma real aumentaria o risco de subtriagem.
+        private static readonly HashSet<string> LimitadoresDeNegacao =
+            new(StringComparer.Ordinal)
+            {
+                "mas",
+                "porem",
+                "entretanto",
+                "contudo",
+                "todavia",
+                "apesar",
+                "com"
+            };
+
+        // Número máximo de palavras entre a negação e o termo negado.
+        private const int JanelaMaximaNegacao = 8;
+
         // =========================================================
         // CONFIGURAÇÕES DO MATCHING APROXIMADO
         // =========================================================
@@ -114,6 +136,11 @@ namespace AssistenteParaTriagem.Services
             var textoNormalizado =
                 Normalizar(texto);
 
+            // Versão do texto que preserva a pontuação (vírgula, ponto etc.),
+            // necessária para delimitar o alcance das negações.
+            var textoParaNegacao =
+                NormalizarParaNegacao(texto);
+
             var palavrasDoTexto =
                 textoNormalizado
                     .Split(
@@ -168,7 +195,7 @@ namespace AssistenteParaTriagem.Services
 
                     bool negado =
                         VerificarNegacao(
-                            textoNormalizado,
+                            textoParaNegacao,
                             termo);
 
                     if (negado)
@@ -299,53 +326,143 @@ namespace AssistenteParaTriagem.Services
         }
 
         // =========================================================
-        // VERIFICAÇÃO DE NEGAÇÃO
+        // NORMALIZAÇÃO PARA NEGAÇÃO (preserva delimitadores)
         // =========================================================
 
-        private bool VerificarNegacao(
-            string texto,
-            string termo)
+        // Igual à Normalizar (minúsculas, sem acentos), mas em vez de apagar
+        // a pontuação, converte vírgula, ponto, ponto e vírgula, dois pontos,
+        // exclamação, interrogação, parênteses e quebras de linha no token "|",
+        // que marca o fim do alcance de uma negação.
+        private string NormalizarParaNegacao(string texto)
         {
-            foreach (var negacao in Negacoes)
+            if (string.IsNullOrWhiteSpace(texto))
+                return string.Empty;
+
+            var normalized =
+                texto
+                    .ToLowerInvariant()
+                    .Trim()
+                    .Normalize(NormalizationForm.FormD);
+
+            var sb = new StringBuilder();
+
+            foreach (char c in normalized)
             {
-                var negacaoNormalizada =
-                    Normalizar(negacao);
-
-                // -------------------------------------------------
-                // Termos compostos
-                // -------------------------------------------------
-
-                if (termo.Contains(' '))
+                if (CharUnicodeInfo.GetUnicodeCategory(c)
+                    == UnicodeCategory.NonSpacingMark)
                 {
-                    var padrao =
-                        $@"\b{Regex.Escape(negacaoNormalizada)}\s+" +
-                        $@"{Regex.Escape(termo)}\b";
+                    continue;
+                }
 
-                    if (Regex.IsMatch(
-                        texto,
-                        padrao,
-                        RegexOptions.IgnoreCase))
-                    {
-                        return true;
-                    }
+                if (c == ',' || c == '.' || c == ';' || c == ':' ||
+                    c == '!' || c == '?' || c == '(' || c == ')' ||
+                    c == '\n' || c == '\r')
+                {
+                    sb.Append(" | ");
+                }
+                else if (char.IsLetterOrDigit(c) || c == '_')
+                {
+                    sb.Append(c);
                 }
                 else
                 {
-                    var padrao =
-                        $@"\b{Regex.Escape(negacaoNormalizada)}\s+" +
-                        $@"{Regex.Escape(termo)}\b";
+                    sb.Append(' ');
+                }
+            }
 
-                    if (Regex.IsMatch(
-                        texto,
-                        padrao,
-                        RegexOptions.IgnoreCase))
+            return Regex.Replace(sb.ToString(), @"\s+", " ").Trim();
+        }
+
+        // =========================================================
+        // VERIFICAÇÃO DE NEGAÇÃO
+        // =========================================================
+
+        // Um termo é considerado negado quando TODAS as suas ocorrências no
+        // texto estão sob o alcance de uma palavra de negação. O alcance vai
+        // da negação até a próxima vírgula/pontuação ou palavra limitadora
+        // (mas, porém, com...), com no máximo JanelaMaximaNegacao palavras.
+        // "e", "ou" e "nem" continuam o alcance.
+        //
+        // Exemplos (negação em []):
+        //   "[sem] febre e tosse"                    -> febre e tosse negadas
+        //   "[sem] sinais de choque ou alteração..." -> choque e alteração negados
+        //   "[sem] febre, tosse"                     -> só febre negada
+        //   "[sem] febre mas com dor torácica"       -> dor torácica NÃO negada
+        //   "sem febre. febre alta ontem"            -> febre NÃO negada
+        private bool VerificarNegacao(
+            string textoComDelimitadores,
+            string termo)
+        {
+            if (string.IsNullOrWhiteSpace(textoComDelimitadores) ||
+                string.IsNullOrWhiteSpace(termo))
+            {
+                return false;
+            }
+
+            var palavras =
+                textoComDelimitadores.Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries);
+
+            var palavrasTermo =
+                termo.Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries);
+
+            if (palavrasTermo.Length == 0)
+                return false;
+
+            var negacoesNormalizadas =
+                new HashSet<string>(
+                    Negacoes.Select(Normalizar),
+                    StringComparer.Ordinal);
+
+            int ocorrencias = 0;
+            int ocorrenciasNegadas = 0;
+
+            for (int i = 0; i <= palavras.Length - palavrasTermo.Length; i++)
+            {
+                bool casa = true;
+
+                for (int k = 0; k < palavrasTermo.Length; k++)
+                {
+                    if (!string.Equals(
+                            palavras[i + k],
+                            palavrasTermo[k],
+                            StringComparison.Ordinal))
                     {
-                        return true;
+                        casa = false;
+                        break;
+                    }
+                }
+
+                if (!casa)
+                    continue;
+
+                ocorrencias++;
+
+                int limite = Math.Max(0, i - JanelaMaximaNegacao);
+
+                for (int j = i - 1; j >= limite; j--)
+                {
+                    var anterior = palavras[j];
+
+                    // Pontuação ou palavra limitadora encerra o alcance.
+                    if (anterior == "|" ||
+                        LimitadoresDeNegacao.Contains(anterior))
+                    {
+                        break;
+                    }
+
+                    if (negacoesNormalizadas.Contains(anterior))
+                    {
+                        ocorrenciasNegadas++;
+                        break;
                     }
                 }
             }
 
-            return false;
+            return ocorrencias > 0 && ocorrencias == ocorrenciasNegadas;
         }
 
         // =========================================================

@@ -2,26 +2,20 @@
 
 namespace AssistenteParaTriagem.Models
 {
-    /// <summary>
     /// Representa os sinais vitais informados durante a triagem.
-    /// </summary>
     public class SinaisVitais
     {
-        /// <summary>
+
         /// Frequência cardíaca (bpm).
-        /// </summary>
         [Range(0, 300)]
         public int? FrequenciaCardiaca { get; set; }
 
-        /// <summary>
+
         /// Frequência respiratória (irpm).
-        /// </summary>
         [Range(0, 100)]
         public int? FrequenciaRespiratoria { get; set; }
 
-        /// <summary>
         /// Pressão arterial sistólica (mmHg).
-        /// </summary>
         [Range(0, 300)]
         public int? PressaoSistolica { get; set; }
 

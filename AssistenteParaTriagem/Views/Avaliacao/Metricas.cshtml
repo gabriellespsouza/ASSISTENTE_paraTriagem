@@ -1,419 +1,593 @@
 ﻿@model AssistenteParaTriagem.Models.ResultadoMetricas
 
 @{
-    ViewData["Title"] = "Resultados da Avaliação";
+    ViewData["Title"] = "Resultados da Validação";
 }
+
+<style>
+    body {
+        background: #eef3f8;
+    }
+
+    .metricas-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        animation: metricasFade .5s ease;
+    }
+
+    /* =========================
+           CABEÇALHO
+           ========================= */
+
+    .metricas-header {
+        border-radius: 26px 26px 0 0;
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 60%, #083d8f 100%);
+        padding: 42px 44px;
+        position: relative;
+        overflow: hidden;
+        color: white;
+        text-align: center;
+        box-shadow: 0 18px 45px rgba(13, 38, 76, .12);
+    }
+
+        .metricas-header::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08);
+            top: -140px;
+            right: -80px;
+        }
+
+        .metricas-header::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .05);
+            bottom: -100px;
+            left: -50px;
+        }
+
+    .metricas-header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .metricas-header-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 17px;
+        background: rgba(255, 255, 255, .18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin: 0 auto 16px;
+    }
+
+    .metricas-header h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .metricas-header p {
+        margin: 0;
+        opacity: .9;
+        font-size: 1rem;
+    }
+
+    /* =========================
+           CONTEÚDO
+           ========================= */
+
+    .metricas-content {
+        background: white;
+        border-radius: 0 0 26px 26px;
+        padding: 42px;
+        box-shadow: 0 18px 45px rgba(13, 38, 76, .12);
+    }
+
+    /* =========================
+           ALERTA
+           ========================= */
+
+    .sucesso-alert {
+        border-radius: 16px;
+        background: #eaf7ef;
+        border: 1px solid #b7dfc6;
+        color: #146c43;
+        padding: 16px 20px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sucesso-alert-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: #198754;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* =========================
+           TÍTULOS DAS SEÇÕES
+           ========================= */
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #22324a;
+        margin-bottom: 20px;
+        margin-top: 35px;
+    }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+    .section-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* =========================
+           CARDS DO RESUMO
+           ========================= */
+
+    .resumo-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        height: 100%;
+        transition: .25s;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .resumo-card:hover {
+            transform: translateY(-4px);
+            border-color: #cfe0ff;
+            box-shadow: 0 12px 28px rgba(13, 38, 76, .10);
+        }
+
+    .resumo-card-body {
+        padding: 25px;
+        text-align: center;
+    }
+
+    .resumo-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 21px;
+    }
+
+    .resumo-label {
+        color: #657386;
+        font-size: .9rem;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .resumo-valor {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #22324a;
+        line-height: 1.1;
+    }
+
+    .valor-verde {
+        color: #198754;
+    }
+
+    .valor-azul {
+        color: #0d6efd;
+    }
+
+    /* =========================
+           CARDS DE MÉTRICAS
+           ========================= */
+
+    .metricas-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .metrica-item {
+        padding: 15px 10px;
+        border-radius: 14px;
+        transition: .2s;
+    }
+
+        .metrica-item:hover {
+            background: #f2f6fb;
+        }
+
+    .metrica-label {
+        color: #657386;
+        font-size: .88rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .metrica-valor {
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #22324a;
+    }
+
+    .metrica-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+    }
+
+    /* =========================
+           SEGURANÇA
+           ========================= */
+
+    .seguranca-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .seguranca-item {
+        padding: 18px;
+        border-radius: 15px;
+        background: white;
+        border: 1px solid #eef1f6;
+        height: 100%;
+    }
+
+    .seguranca-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-size: 20px;
+    }
+
+    .icon-danger {
+        background: #f8d7da;
+        color: #b02a37;
+    }
+
+    .icon-warning {
+        background: #fff3cd;
+        color: #997404;
+    }
+
+    .seguranca-label {
+        color: #657386;
+        font-weight: 700;
+        font-size: .9rem;
+    }
+
+    .seguranca-valor {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 5px 0 8px;
+    }
+
+    .seguranca-descricao {
+        color: #657386;
+        font-size: .9rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* =========================
+           PLN
+           ========================= */
+
+    .pln-card {
+        border: 1px solid #eef1f6;
+        border-radius: 18px;
+        background: #fbfcfe;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .pln-item {
+        padding: 15px 10px;
+        border-radius: 14px;
+        transition: .2s;
+    }
+
+        .pln-item:hover {
+            background: #f2f6fb;
+        }
+
+    .pln-label {
+        color: #657386;
+        font-size: .88rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .pln-valor {
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #22324a;
+    }
+
+    .pln-positivo {
+        color: #198754;
+    }
+
+    .pln-negativo {
+        color: #dc3545;
+    }
+
+    .pln-alerta {
+        color: #d39e00;
+    }
+
+    .metricas-divider {
+        border: 0;
+        border-top: 1px solid #e7ebf0;
+        margin: 25px 0;
+    }
+
+    /* =========================
+           BOTÃO VOLTAR
+           ========================= */
+
+    .acoes {
+        margin-top: 35px;
+        padding-top: 30px;
+        border-top: 1px solid #eef1f6;
+        text-align: center;
+    }
+
+    .btn-voltar {
+        border-radius: 14px;
+        padding: 13px 25px;
+        font-weight: 700;
+        border: 1px solid #6c757d;
+        color: #495057;
+        background: white;
+        transition: .25s;
+    }
+
+        .btn-voltar:hover {
+            transform: translateY(-2px);
+            background: #6c757d;
+            color: white;
+        }
+
+    /* =========================
+           ANIMAÇÃO
+           ========================= */
+
+    @@keyframes metricasFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* =========================
+           RESPONSIVO
+           ========================= */
+
+    @@media (max-width: 768px) {
+
+        .metricas-header {
+            padding: 35px 20px;
+        }
+
+            .metricas-header h1 {
+                font-size: 1.6rem;
+            }
+
+        .metricas-content {
+            padding: 28px 20px;
+        }
+
+        .resumo-valor {
+            font-size: 1.7rem;
+        }
+
+        .seguranca-item {
+            margin-bottom: 15px;
+        }
+    }
+</style>
+
 
 <div class="container py-5">
 
-    <!-- ===================================================== -->
-    <!-- CABEÇALHO -->
-    <!-- ===================================================== -->
+    <div class="metricas-shell">
 
-    <div class="text-center mb-5">
+        <!-- ================================================= -->
+        <!-- CABEÇALHO -->
+        <!-- ================================================= -->
 
-        <h1 class="fw-bold text-primary">
-            Resultados da Avaliação
-        </h1>
+        <div class="metricas-header">
 
-        <p class="text-muted">
-            Indicadores de desempenho do protótipo
-        </p>
+            <div class="metricas-header-content">
 
-    </div>
-
-
-    <!-- ===================================================== -->
-    <!-- INDICADORES PRINCIPAIS -->
-    <!-- ===================================================== -->
-
-    <div class="row g-4">
-
-        <!-- Total -->
-
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>Total de casos</h6>
-
-                    <h2 class="fw-bold">
-                        @Model.TotalCasos
-                    </h2>
-
+                <div class="metricas-header-icon">
+                    <i class="bi bi-bar-chart-fill"></i>
                 </div>
+
+                <h1>
+                    Resultados da Validação
+                </h1>
+
+                <p>
+                    Avaliação técnica utilizando cenários clínicos simulados.
+                </p>
 
             </div>
 
         </div>
 
 
-        <!-- Acurácia sistema -->
+        <!-- ================================================= -->
+        <!-- CONTEÚDO -->
+        <!-- ================================================= -->
 
-        <div class="col-md-4">
+        <div class="metricas-content">
 
-            <div class="card border-0 shadow text-center">
 
-                <div class="card-body">
+            <!-- ================================================= -->
+            <!-- MENSAGEM DE SUCESSO -->
+            <!-- ================================================= -->
+            @if (TempData["Sucesso"] != null)
+            {
+                <div class="sucesso-alert">
 
-                    <h6>Acurácia do sistema</h6>
+                    <div class="sucesso-alert-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
-                    <h2 class="fw-bold text-success">
-
-                        @Model.AcuraciaSistema.ToString("F2")%
-
-                    </h2>
-
-                    <small class="text-muted">
-
-                        @Model.AcertosSistema
-                        de
-                        @Model.TotalCasos
-                        casos
-
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Acurácia profissionais -->
-
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>Acurácia dos profissionais</h6>
-
-                    <h2 class="fw-bold">
-
-                        @Model.AcuraciaProfissionais.ToString("F2")%
-
-                    </h2>
-
-                    <small class="text-muted">
-
-                        @Model.AcertosProfissionais
-                        de
-                        @Model.TotalCasos
-                        casos
-
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ===================================================== -->
-    <!-- MÉTRICAS DE CLASSIFICAÇÃO -->
-    <!-- ===================================================== -->
-
-    <div class="row g-4 mt-1">
-
-        <!-- Precisão -->
-
-        <div class="col-md-3">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>Precisão</h6>
-
-                    <h3>
-                        @Model.Precisao.ToString("F2")%
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Recall -->
-
-        <div class="col-md-3">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>Recall / Sensibilidade</h6>
-
-                    <h3>
-                        @Model.Recall.ToString("F2")%
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- F1 -->
-
-        <div class="col-md-3">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>F1</h6>
-
-                    <h3>
-                        @Model.F1.ToString("F2")%
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Kappa -->
-
-        <div class="col-md-3">
-
-            <div class="card border-0 shadow text-center">
-
-                <div class="card-body">
-
-                    <h6>Kappa de Cohen</h6>
-
-                    <h3>
-                        @Model.Kappa.ToString("F3")
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- VALIDAÇÃO ESPECÍFICA DO PLN -->
-    <!-- ===================================================== -->
-
-    <div class="card border-0 shadow mt-5">
-
-        <div class="card-body">
-
-            <h4 class="text-primary">
-                Validação específica do PLN
-            </h4>
-
-            <p class="text-muted">
-                Avaliação da capacidade do processamento de linguagem
-                natural em identificar os discriminadores esperados
-                nos cenários clínicos.
-            </p>
-
-            <div class="row g-4 mt-3">
-
-                <div class="col-md-3">
-
-                    <div class="card border text-center h-100">
-
-                        <div class="card-body">
-
-                            <h6>Cenários avaliados</h6>
-
-                            <h3 class="fw-bold">
-                                @Model.PlnTotalCenarios
-                            </h3>
-
-                        </div>
-
+                    <div>
+                        @TempData["Sucesso"]
                     </div>
 
                 </div>
+            }
 
-                <div class="col-md-3">
 
-                    <div class="card border text-center h-100">
+            <!-- ================================================= -->
+            <!-- RESUMO -->
+            <!-- ================================================= -->
 
-                        <div class="card-body">
+            <div class="section-title">
 
-                            <h6>Precisão do PLN</h6>
+                <span class="section-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </span>
 
-                            <h3 class="fw-bold text-success">
-                                @Model.PlnPrecisao.ToString("F2")%
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card border text-center h-100">
-
-                        <div class="card-body">
-
-                            <h6>Recall / Sensibilidade</h6>
-
-                            <h3 class="fw-bold">
-                                @Model.PlnRecall.ToString("F2")%
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card border text-center h-100">
-
-                        <div class="card-body">
-
-                            <h6>F1-score</h6>
-
-                            <h3 class="fw-bold">
-                                @Model.PlnF1.ToString("F2")%
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                Resumo da validação
 
             </div>
 
-            <div class="row mt-4">
+            <div class="row g-4 mb-2">
+
+                <!-- TOTAL -->
 
                 <div class="col-md-4">
 
-                    <div class="alert alert-success">
+                    <div class="resumo-card">
 
-                        <strong>
-                            Verdadeiros positivos
-                        </strong>
+                        <div class="resumo-card-body">
 
-                        <br />
+                            <div class="resumo-icon">
+                                <i class="bi bi-clipboard2-data-fill"></i>
+                            </div>
 
-                        @Model.PlnVerdadeirosPositivos
+                            <div class="resumo-label">
+                                Total de cenários
+                            </div>
+
+                            <div class="resumo-valor">
+                                @Model.TotalCasos
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
+
+
+                <!-- ACERTOS -->
 
                 <div class="col-md-4">
 
-                    <div class="alert alert-warning">
+                    <div class="resumo-card">
 
-                        <strong>
-                            Falsos positivos
-                        </strong>
+                        <div class="resumo-card-body">
 
-                        <br />
+                            <div class="resumo-icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
 
-                        @Model.PlnFalsosPositivos
+                            <div class="resumo-label">
+                                Acertos do sistema
+                            </div>
+
+                            <div class="resumo-valor valor-verde">
+                                @Model.AcertosSistema
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
+
+
+                <!-- ACURÁCIA -->
 
                 <div class="col-md-4">
 
-                    <div class="alert alert-danger">
+                    <div class="resumo-card">
 
-                        <strong>
-                            Falsos negativos
-                        </strong>
+                        <div class="resumo-card-body">
 
-                        <br />
+                            <div class="resumo-icon">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
 
-                        @Model.PlnFalsosNegativos
+                            <div class="resumo-label">
+                                Acurácia
+                            </div>
 
-                    </div>
+                            <div class="resumo-valor valor-azul">
+                                @Model.AcuraciaSistema.ToString("F2")%
+                            </div>
 
-                </div>
-
-            </div>
-
-            <div class="alert alert-secondary mt-3">
-
-                <strong>Como interpretar:</strong>
-
-                A validação compara os discriminadores identificados
-                pelo PLN com os discriminadores esperados definidos
-                para cada cenário clínico.
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- CONCORDÂNCIA -->
-    <!-- ===================================================== -->
-
-    <div class="card border-0 shadow mt-5">
-
-        <div class="card-body">
-
-            <h4 class="text-primary">
-                Concordância entre profissional e sistema
-            </h4>
-
-            <div class="row mt-4">
-
-                <div class="col-md-6">
-
-                    <div class="alert alert-info">
-
-                        <strong>
-                            Concordância
-                        </strong>
-
-                        <br />
-
-                        @Model.ConcordanciaProfissionalSistema.ToString("F2")%
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="alert alert-secondary">
-
-                        <strong>
-                            Divergência
-                        </strong>
-
-                        <br />
-
-                        @{
-                            var divergencia =
-                                100 -
-                                Model.ConcordanciaProfissionalSistema;
-                        }
-
-                        @divergencia.ToString("F2")%
+                        </div>
 
                     </div>
 
@@ -421,53 +595,183 @@
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- ================================================= -->
+            <!-- MÉTRICAS DE CLASSIFICAÇÃO -->
+            <!-- ================================================= -->
+
+            <div class="section-title">
+
+                <span class="section-icon">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                </span>
+
+                Métricas de classificação
+
+            </div>
+
+            <div class="metricas-card">
+
+                <div class="row text-center">
+
+                    <div class="col-md-3">
+
+                        <div class="metrica-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-bullseye"></i>
+                            </div>
+
+                            <div class="metrica-label">
+                                Precisão
+                            </div>
+
+                            <div class="metrica-valor">
+                                @Model.Precisao.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
-    <!-- ===================================================== -->
-    <!-- SEGURANÇA -->
-    <!-- ===================================================== -->
+                    <div class="col-md-3">
 
-    <div class="card border-0 shadow mt-5">
+                        <div class="metrica-item">
 
-        <div class="card-body">
+                            <div class="metrica-icon">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
 
-            <h4 class="text-primary">
+                            <div class="metrica-label">
+                                Recall
+                            </div>
+
+                            <div class="metrica-valor">
+                                @Model.Recall.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="metrica-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+
+                            <div class="metrica-label">
+                                F1-Score
+                            </div>
+
+                            <div class="metrica-valor">
+                                @Model.F1.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="metrica-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-diagram-3-fill"></i>
+                            </div>
+
+                            <div class="metrica-label">
+                                Kappa
+                            </div>
+
+                            <div class="metrica-valor">
+                                @Model.Kappa.ToString("F3")
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- SEGURANÇA -->
+            <!-- ================================================= -->
+
+            <div class="section-title">
+
+                <span class="section-icon">
+                    <i class="bi bi-shield-check"></i>
+                </span>
+
                 Segurança da classificação
-            </h4>
 
-            <div class="row mt-4">
+            </div>
 
-                <div class="col-md-6">
+            <div class="seguranca-card">
 
-                    <div class="alert alert-danger">
+                <div class="row g-4">
 
-                        <strong>
-                            Under-triage
-                        </strong>
+                    <!-- SUBTRIAGEM -->
 
-                        <br />
+                    <div class="col-md-6">
 
-                        @Model.UnderTriage.ToString("F2")%
+                        <div class="seguranca-item text-center">
+
+                            <div class="seguranca-icon icon-danger">
+                                <i class="bi bi-arrow-down-circle-fill"></i>
+                            </div>
+
+                            <div class="seguranca-label">
+                                Subtriagem
+                            </div>
+
+                            <div class="seguranca-valor text-danger">
+                                @Model.UnderTriage
+                            </div>
+
+                            <p class="seguranca-descricao">
+                                Sistema classificou o caso como menos urgente
+                                que o padrão-ouro.
+                            </p>
+
+                        </div>
 
                     </div>
 
-                </div>
 
+                    <!-- SUPERTRIAGEM -->
 
-                <div class="col-md-6">
+                    <div class="col-md-6">
 
-                    <div class="alert alert-warning">
+                        <div class="seguranca-item text-center">
 
-                        <strong>
-                            Over-triage
-                        </strong>
+                            <div class="seguranca-icon icon-warning">
+                                <i class="bi bi-arrow-up-circle-fill"></i>
+                            </div>
 
-                        <br />
+                            <div class="seguranca-label">
+                                Supertriagem
+                            </div>
 
-                        @Model.OverTriage.ToString("F2")%
+                            <div class="seguranca-valor text-warning">
+                                @Model.OverTriage
+                            </div>
+
+                            <p class="seguranca-descricao">
+                                Sistema classificou o caso como mais urgente
+                                que o padrão-ouro.
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -475,106 +779,195 @@
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- ================================================= -->
+            <!-- VALIDAÇÃO DO PLN -->
+            <!-- ================================================= -->
+
+            <div class="section-title">
+
+                <span class="section-icon">
+                    <i class="bi bi-cpu-fill"></i>
+                </span>
+
+                Validação específica do PLN
+
+            </div>
+
+            <div class="pln-card">
+
+                <!-- CONTADORES PLN -->
+
+                <div class="row text-center">
+
+                    <div class="col-md-3">
+
+                        <div class="pln-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-files"></i>
+                            </div>
+
+                            <div class="pln-label">
+                                Cenários
+                            </div>
+
+                            <div class="pln-valor">
+                                @Model.PlnTotalCenarios
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
-    <!-- ===================================================== -->
-    <!-- USABILIDADE -->
-    <!-- ===================================================== -->
+                    <div class="col-md-3">
 
-    <div class="card border-0 shadow mt-5">
+                        <div class="pln-item">
 
-        <div class="card-body">
+                            <div class="metrica-icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
 
-            <h4 class="text-primary">
-                Avaliação de usabilidade
-            </h4>
+                            <div class="pln-label">
+                                Verdadeiros Positivos
+                            </div>
 
-            <p class="text-muted mb-4">
-                Média geral das respostas dos participantes
-            </p>
+                            <div class="pln-valor pln-positivo">
+                                @Model.PlnVerdadeirosPositivos
+                            </div>
 
-            <div class="row mt-4">
+                        </div>
 
-                <div class="col-md-6">
+                    </div>
 
-                    Facilidade de uso:
 
-                    <strong>
-                        @Model.MediaFacilidade.ToString("F2") / 5
-                    </strong>
+                    <div class="col-md-3">
+
+                        <div class="pln-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-x-circle-fill"></i>
+                            </div>
+
+                            <div class="pln-label">
+                                Falsos Positivos
+                            </div>
+
+                            <div class="pln-valor pln-negativo">
+                                @Model.PlnFalsosPositivos
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="pln-item">
+
+                            <div class="metrica-icon">
+                                <i class="bi bi-exclamation-circle-fill"></i>
+                            </div>
+
+                            <div class="pln-label">
+                                Falsos Negativos
+                            </div>
+
+                            <div class="pln-valor pln-alerta">
+                                @Model.PlnFalsosNegativos
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
-                <div class="col-md-6">
-
-                    Clareza:
-
-                    <strong>
-                        @Model.MediaClareza.ToString("F2") / 5
-                    </strong>
-
-                </div>
+                <hr class="metricas-divider" />
 
 
-                <div class="col-md-6 mt-3">
+                <!-- MÉTRICAS DO PLN -->
 
-                    Utilidade:
+                <div class="row text-center">
 
-                    <strong>
-                        @Model.MediaUtilidade.ToString("F2") / 5
-                    </strong>
+                    <div class="col-md-4">
 
-                </div>
+                        <div class="pln-item">
+
+                            <div class="pln-label">
+                                Precisão do PLN
+                            </div>
+
+                            <div class="pln-valor">
+                                @Model.PlnPrecisao.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
-                <div class="col-md-6 mt-3">
+                    <div class="col-md-4">
 
-                    Confiança:
+                        <div class="pln-item">
 
-                    <strong>
-                        @Model.MediaConfianca.ToString("F2") / 5
-                    </strong>
+                            <div class="pln-label">
+                                Recall do PLN
+                            </div>
 
-                </div>
+                            <div class="pln-valor">
+                                @Model.PlnRecall.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
-                <div class="col-md-6 mt-3">
+                    <div class="col-md-4">
 
-                    Recomendaria:
+                        <div class="pln-item">
 
-                    <strong>
-                        @Model.MediaRecomendacao.ToString("F2") / 5
-                    </strong>
+                            <div class="pln-label">
+                                F1 do PLN
+                            </div>
+
+                            <div class="pln-valor">
+                                @Model.PlnF1.ToString("F2")%
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
+
+            <!-- ================================================= -->
+            <!-- VOLTAR -->
+            <!-- ================================================= -->
+
+            <div class="acoes">
+
+                <a asp-action="Index"
+                   class="btn btn-voltar">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Voltar para cenários
+
+                </a>
+
+            </div>
+
         </div>
-
-    </div>
-
-
-    <!-- ===================================================== -->
-    <!-- OBSERVAÇÃO -->
-    <!-- ===================================================== -->
-
-    <div class="alert alert-secondary mt-4">
-
-        <strong>Observação:</strong>
-
-        As métricas de precisão, recall e F1 são calculadas
-        considerando as cinco categorias de classificação de risco:
-        Vermelho, Laranja, Amarelo, Verde e Azul.
-
-        O Kappa de Cohen representa a concordância entre a
-        classificação do sistema e o padrão-ouro, considerando
-        a possibilidade de concordância ao acaso.
 
     </div>
 
 </div>
+
